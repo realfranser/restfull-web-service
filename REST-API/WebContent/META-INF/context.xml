@@ -1,0 +1,11 @@
+<Context>
+	<Resource name="jdbc/booknet"
+		auth="Container"
+		type="javax.sql.DataSource"
+		username="booknet"
+		password="booknet"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/booknet?useSSL=false"
+		maxActive="6"
+		maxIdle="3"/>
+</Context>
