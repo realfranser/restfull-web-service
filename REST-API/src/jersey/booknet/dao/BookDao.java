@@ -5,6 +5,7 @@ import java.util.Map;
 
 import jersey.booknet.model.Book;
 
+// Estructura de datos que proviene de un select a una base de datos
 public class BookDao {
 	private Map<String, Book> contentProvider = new HashMap<>();
 	  

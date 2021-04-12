@@ -18,26 +18,25 @@ import jersey.booknet.dao.BookDao;
 import jersey.booknet.model.Book;
 
 
-// Book resource class. Key -> isbn
-@Path("books")
-public class BookResource {
+// ReadBook resource class. Key -> read_id
+@Path("/users/{username}/read_books")
+public class ReadBooksResource {
   @Context
   UriInfo uriInfo;
   @Context
   Request request;
-  String isbn;
+  String read_id;
  
-  /* GET call is not necesary in the first implementation
   // Web API     
-  @Path("{isbn}")
+  @Path("{read_id}")
   @GET
   @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-  public Response getBook(@PathParam("isbn") String isbn) {
+  public Response getBook(@PathParam("read_id") String read_id) {
 	  Response res;
-	  Book book;
-	  if(BookDao.getInstance().getModel().containsKey(isbn)) {
-		  book= BookDao.getInstance().getModel().get(isbn);
-	      res = Response.ok(book).build();
+	  ReadBook read_book;
+	  if(ReadBookDao.getInstance().getModel().containsKey(read_id)) {
+		  read_book = ReadBookDao.getInstance().getModel().get(isbn);
+	      res = Response.ok(read_book).build();
 	  } else {
 		  //throw new RuntimeException("Get: Tarea con isbn " + isbn +  " no encontrada");
 	      res = Response.status(Response.Status.NOT_FOUND).build();
@@ -46,37 +45,36 @@ public class BookResource {
   }
   
   // Para testing (Navegador como cliente)
-  @Path("{book}")
+  @Path("{read_id}")
   @GET
   @Produces(MediaType.TEXT_XML)
-  public Response getTodoHTML(@PathParam("book") String isbn) {
+  public Response getTodoHTML(@PathParam("read_id") String read_id) {
 	  Response res;
-	  Book book;
-	  if(BookDao.getInstance().getModel().containsKey(isbn)) {
-		  book = BookDao.getInstance().getModel().get(isbn);
-	      res = Response.ok(book).build();
+	  ReadBook read_book;
+	  if(ReadBookDao.getInstance().getModel().containsKey(read_id)) {
+		  read_book = ReadBookDao.getInstance().getModel().get(read_id);
+	      res = Response.ok(read_book).build();
 	  } else {
 		  //throw new RuntimeException("Get: Tarea con isbn " + isbn +  " no encontrada");
 	      res = Response.status(Response.Status.NOT_FOUND).build();
 	  }
 	  return res;
   }
-  */
   
   @PUT
-  @Path("{isbn}")
+  @Path("{read_id}")
   @Consumes(MediaType.APPLICATION_XML)
-  public Response putBook(JAXBElement<Book> book) {
-    Book c = book.getValue();
+  public Response putBook(JAXBElement<ReadBook> read_book) {
+    ReadBook c = read_book.getValue();
     return putAndGetResponse(c);
   }
   
   @DELETE
-  @Path("{isbn}")
-  public Response deleteBook(@PathParam("isbn") String isbn) {
+  @Path("{read_id}")
+  public Response deleteBook(@PathParam("read_id") String read_id) {
 	  Response res;
-	  if(BookDao.getInstance().getModel().containsKey(isbn)) {
-		  BookDao.getInstance().getModel().remove(isbn);
+	  if(ReadBookDao.getInstance().getModel().containsKey(read_id)) {
+		  ReadBookDao.getInstance().getModel().remove(read_id);
 	      res = Response.ok().build();
 	  } else {
 		  //throw new RuntimeException("Delete: Tarea con isbn " + isbn +  " no encontrada");
@@ -87,19 +85,19 @@ public class BookResource {
 
   // Change -> difference between put and post?
   @POST
-  @Path("{isbn}")
+  @Path("{read_id")
   @Consumes(MediaType.APPLICATION_XML)
-  public Restponse postBook(JAXBElement<Book> book) {
-    Book c = book.getValue();
+  public Restponse postBook(JAXBElement<ReadBook> read_book) {
+    ReadBook c = read_book.getValue();
     return putAndGetResponse(c);
   }
   
-  private Response putAndGetResponse(Book book) {
+  private Response putAndGetResponse(ReadBook read_book) {
     Response res;
-    if(BookDao.getInstance().getModel().containsKey(book.getIsbn())) {
+    if(ReadBookDao.getInstance().getModel().containsKey(read_book.getIsbn())) {
       res = Response.noContent().build();
     } else {
-      BookDao.getInstance().getModel().put(book.getIsbn(), book);
+      ReadBookDao.getInstance().getModel().put(read_book.getIsbn(), read_book);
       res = Response.created(uriInfo.getAbsolutePath()).header("Location", uriInfo.getAbsolutePath().toString()).build();
     }
     return res;

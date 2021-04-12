@@ -18,26 +18,25 @@ import jersey.booknet.dao.BookDao;
 import jersey.booknet.model.Book;
 
 
-// Book resource class. Key -> isbn
-@Path("books")
+// Book resource class. Key -> user_id
+@Path("users")
 public class BookResource {
   @Context
   UriInfo uriInfo;
   @Context
   Request request;
-  String isbn;
+  String id;
  
-  /* GET call is not necesary in the first implementation
   // Web API     
-  @Path("{isbn}")
+  @Path("{id}")
   @GET
   @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-  public Response getBook(@PathParam("isbn") String isbn) {
+  public Response getBook(@PathParam("id") String id) {
 	  Response res;
-	  Book book;
-	  if(BookDao.getInstance().getModel().containsKey(isbn)) {
-		  book= BookDao.getInstance().getModel().get(isbn);
-	      res = Response.ok(book).build();
+	  User user;
+	  if(UserDao.getInstance().getModel().containsKey(id)) {
+		  user = UserDao.getInstance().getModel().get(id);
+	      res = Response.ok(user).build();
 	  } else {
 		  //throw new RuntimeException("Get: Tarea con isbn " + isbn +  " no encontrada");
 	      res = Response.status(Response.Status.NOT_FOUND).build();
@@ -46,15 +45,15 @@ public class BookResource {
   }
   
   // Para testing (Navegador como cliente)
-  @Path("{book}")
+  @Path("{id}")
   @GET
   @Produces(MediaType.TEXT_XML)
-  public Response getTodoHTML(@PathParam("book") String isbn) {
+  public Response getTodoHTML(@PathParam("id") String id) {
 	  Response res;
-	  Book book;
-	  if(BookDao.getInstance().getModel().containsKey(isbn)) {
-		  book = BookDao.getInstance().getModel().get(isbn);
-	      res = Response.ok(book).build();
+    User user;
+	  if(UserDao.getInstance().getModel().containsKey(id)) {
+		  user = UserDao.getInstance().getModel().get(id);
+	      res = Response.ok(user).build();
 	  } else {
 		  //throw new RuntimeException("Get: Tarea con isbn " + isbn +  " no encontrada");
 	      res = Response.status(Response.Status.NOT_FOUND).build();
@@ -64,19 +63,19 @@ public class BookResource {
   */
   
   @PUT
-  @Path("{isbn}")
+  @Path("{id}")
   @Consumes(MediaType.APPLICATION_XML)
-  public Response putBook(JAXBElement<Book> book) {
-    Book c = book.getValue();
+  public Response putBook(JAXBElement<User> user) {
+    User c = user.getValue();
     return putAndGetResponse(c);
   }
   
   @DELETE
-  @Path("{isbn}")
-  public Response deleteBook(@PathParam("isbn") String isbn) {
+  @Path("{id}")
+  public Response deleteBook(@PathParam("id") String id) {
 	  Response res;
-	  if(BookDao.getInstance().getModel().containsKey(isbn)) {
-		  BookDao.getInstance().getModel().remove(isbn);
+	  if(UserDao.getInstance().getModel().containsKey(id)) {
+		  UserDao.getInstance().getModel().remove(id);
 	      res = Response.ok().build();
 	  } else {
 		  //throw new RuntimeException("Delete: Tarea con isbn " + isbn +  " no encontrada");
@@ -87,19 +86,19 @@ public class BookResource {
 
   // Change -> difference between put and post?
   @POST
-  @Path("{isbn}")
+  @Path("{id}")
   @Consumes(MediaType.APPLICATION_XML)
-  public Restponse postBook(JAXBElement<Book> book) {
-    Book c = book.getValue();
+  public Restponse postBook(JAXBElement<User> user) {
+    User c = book.getValue();
     return putAndGetResponse(c);
   }
   
-  private Response putAndGetResponse(Book book) {
+  private Response putAndGetResponse(Book id) {
     Response res;
-    if(BookDao.getInstance().getModel().containsKey(book.getIsbn())) {
+    if(UserDao.getInstance().getModel().containsKey(user.getId())) {
       res = Response.noContent().build();
     } else {
-      BookDao.getInstance().getModel().put(book.getIsbn(), book);
+      UserDao.getInstance().getModel().put(user.getId(), id); // put(1, 2), arg 2 ?
       res = Response.created(uriInfo.getAbsolutePath()).header("Location", uriInfo.getAbsolutePath().toString()).build();
     }
     return res;

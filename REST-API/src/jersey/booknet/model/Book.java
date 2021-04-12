@@ -2,6 +2,7 @@ package jersey.booknet.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+// Objeto Book serializable
 @XmlRootElement
 public class Book {
 	  private String isbn;
