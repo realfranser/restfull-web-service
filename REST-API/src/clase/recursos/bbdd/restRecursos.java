@@ -201,7 +201,7 @@ public class restRecursos {
 		 try {
 			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_book WHERE user_id=? AND isbn =?");
 			 prepStmt.setInt(1,user_id);
-			 prepStmt.setInt(1,isbn);
+			 prepStmt.setInt(2,isbn);
 			 prepStmt.executeUpdate();
 			 return true;
 		 }
@@ -247,11 +247,66 @@ public class restRecursos {
 			 e.printStackTrace();
 			 return false;
 			 } 
-		
-		
 	}
 	
+	public ArrayList<ReadBook> getBooksUser(int user_id){
+		if(conn == null) {
+			 connect();
+		 }
+		 try {
+		 ArrayList<ReadBook> readBooks = new ArrayList<ReadBook>();
+		 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.read_book WHERE user_id = ?");
+		 prepStmt.setInt(1, user_id);
+		 rs = prepStmt.executeQuery();
+		 conn.commit();
+		 rs.next();
+		 do {
+			 readBooks.add(new ReadBook(rs.getInt(1),rs.getInt(2),rs.getInt (3),rs.getInt(4),rs.getInt(5))); // yyyymmdd
+		 }
+		 while(rs.next());
+		 return readBooks;
+		 }
+		 catch (SQLException e) {
+			// TODO: handle exception
+			 e.printStackTrace();
+			 return null;
+		}
+	}
 	
+	public boolean addFriendship(int user_id, int friend_id) {
+		if(conn == null) {
+			 connect();
+		 }
+		 try {
+			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.friendship ('user_id','friend_id') VALUES (?,?);");
+			 prepStmt.setInt(1,user_id);
+			 prepStmt.setInt(2,friend_id);
+			 prepStmt.executeUpdate();
+			 conn.commit();
+			 return true;
+		 }
+		 catch(SQLException e){
+			 e.printStackTrace();
+			 return false;
+			 } 
+	
+	}
+	public boolean removeFriendship(int user_id, int friend_id) {
+		if(conn == null) {
+			 connect();
+		 }
+		 try {
+			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.friendship WHERE user_id=? AND friend_id =?");
+			 prepStmt.setInt(1,user_id);
+			 prepStmt.setInt(2,friend_id);
+			 prepStmt.executeUpdate();
+			 return true;
+		 }
+		 catch(SQLException e){
+			 e.printStackTrace();
+			 return false;
+			 } 
+	}
 	
 	
 }
