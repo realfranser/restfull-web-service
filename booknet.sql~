@@ -111,7 +111,8 @@ CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `edad` int NOT NULL,
+  `born_date` date NOT NULL,
+  `reg_date` date NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -151,8 +152,8 @@ LIMIT 0, 1000
 
 -- Date: 2021-04-13 11:06
 */
-INSERT INTO `users` (`user_id`,`user_name`,`email`,`born_date`,`reg_date`) VALUES (1,'user1','mail1@mail.com','1');
-INSERT INTO `users` (`user_id`,`user_name`,`email`,`born_date`,`reg_date`) VALUES (2,'user2','mail2@mail.com','2');
+INSERT INTO `users` (`user_id`,`user_name`,`email`,`born_date`,`reg_date`) VALUES (1,'user1','mail1@mail.com','1/1/1','2/2/2');
+INSERT INTO `users` (`user_id`,`user_name`,`email`,`born_date`,`reg_date`) VALUES (2,'user2','mail2@mail.com','2/2/2','3/3/3');
 
 /*
 -- Query: SELECT * FROM booknet.read_books
