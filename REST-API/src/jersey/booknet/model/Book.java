@@ -20,7 +20,7 @@ public class Book {
 	    this.auth_name = auth_name;
 	    this.category = category;
 	  }
-	  public String getIsbn() {
+	  public int getIsbn() {
 	    return isbn;
 	  }
 	  public void setIsbn(int isbn) {
