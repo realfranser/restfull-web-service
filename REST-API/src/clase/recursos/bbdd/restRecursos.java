@@ -296,7 +296,7 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.friendship WHERE user_id=? AND friend_id =?");
+			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.friendship WHERE user_id=? AND friend_id =?;");
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.setInt(2,friend_id);
 			 prepStmt.executeUpdate();
@@ -307,13 +307,14 @@ public class restRecursos {
 			 return false;//
 			 } 
 	}
-	public ArrayList<Integer> getFriendsId(int user_id){ // returns list of friends id
+	public ArrayList<Integer> getFriendsId(int user_id, Integer first_row, Integer last_row){ // returns list of friends id
 		if(conn == null) {
 			 connect();
 		 }
 		 try {
 		 ArrayList<Integer> friends_id = new ArrayList<Integer>();
-		 prepStmt = conn.prepareStatement( "SELECT friend_id FROM booknet.friendship WHERE user_id = ?");
+		 if (first_row == null) first_row = 0;
+		 prepStmt = conn.prepareStatement( "SELECT friend_id FROM booknet.friendship WHERE user_id = ? OFFSET ?;");
 		 prepStmt.setInt(1, user_id);
 		 rs = prepStmt.executeQuery();
 		 conn.commit();
@@ -321,7 +322,7 @@ public class restRecursos {
 		 do {
 			 friends_id.add(new Integer(rs.getInt(1))); // yyyymmdd
 		 }
-		 while(rs.next());
+		 while(rs.next() && (last_row == null || friend_ids.size() < (last_row - first_row)));
 		 return friends_id;
 		 }
 		 catch (SQLException e) {
@@ -331,8 +332,100 @@ public class restRecursos {
 		}
 		
 	}
+
+	public ArrayList<Book> getLastReadBooks(int user_id, int date, int first, int last){
+		if (conn == null) connect();
+		try{
+			ArrayList <Integer> friends_id = getFriendsId(user_id, null, null);
+			if (first == null) first = 0;
+			ArrayList <Book> filtered_books = new ArrayList<Book>();
+			for (int friend_id : friends_id){
+				prepStmt = conn.prepareStatement( "SELECT b.* 	FROM booknet.read_books rb, booknet.books b
+																WHERE	rb.user_id = ? AND
+																		rb.read_date > ?;")
+				prepStmt.setInt(1, friend_id);
+				prepStmt.setInt(2, date);
+
+				rs = prepStmt.executeQuery();
+				conn.commit();
+				rs.next();
+				int starting_counter = first;
+				do{
+					filtered_books.add(new Book(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+					starting_counter --;
+					if (starting_counter > 0) filtered_books.remove(filtered_books.size()-1);
+				}while(rs.next() && (last_row == null || filtered_books.size() < (last < first)));
+			}
+
+				return filtered_books
+		}catch (SQLException e){
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
+	public ArrayList<Book> filtrarLibrosRecomendados(int user_id, int calificacion_minima, String nombre_autor, String categoria){
+		if(conn == null) connect();
+		try {
+			/* Creo que no hace falta obtener el user
+			prepStmt = conn.prepareStatement( "SELECT * FROM booknet.users WHERE user_name = ?; ");
+			prepStmt.setString(1,user_id);
+			rs = prepStmt.executeQuery();
+			conn.commit();
+			rs.next();
+			jersey.booknet.model.User user = new jersey.booknet.model.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4));
+			*/
+			prepStmt = conn.prepareStatement( "SELECT friend_id FROM booknet.friendship WHERE user_id = ?;");
+			prepStmt.setString(1,user_id)
+			rs = prepStmt.executeQuery();
+			conn.commit();
+			rs.next();
+			ArrayList <Integers> all_friends_ids = new ArrayList<Integers>();
+			do{
+				all_friends_ids.add(rs.getInt(1));
+			}while(rs.next());
+
+			if (calificacion_minima == null) calificacion_minima = 0;
+			if (nombre_autor == null) nombre_autor = '%%';
+			if (categoria == null) categoria = '%%';
+			ArrayList <Book> filtered_books = new ArrayList<Book>();
+			for (int friend_id : all_friends_ids){
+				prepStmt = conn.prepareStatement( "SELECT 	b.* FROM booknet.read_books rb, booknet.books b
+															WHERE 	rb.user_id = ? AND
+																	rb.user_rating > ? AND
+																	rb.category = ? AND
+																	b.authors_name = ?;");
+				prepStmt.setInt(1, friend_id);
+				prepStmt.setInt(2, calificacion_minima);
+				prepStmt.setString(3, categoria);
+				prepStmt.setString(4, nombre_autor);
+
+				rs = prepStmt.executeQuery();
+				conn.commit();
+				rs.next();
+				do{
+					filtered_books.add(new Book(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+				}while(rs.next());
+			}
+
+			return filtered_books;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
+	/* Mostrar: datos basicos de un usuario -> String Nick, String email,String born_date,String reg_date;
+				ultimo libro leido 			-> int isbn, String name, String, auth_name, String category;
+				numero de amigos;
+				ultimo libro leido por sus amigos -> ??? Nick + Libro <-VS-> Libro Solo
+
+	DUDA => Hay que crear una clase que sea FullUser.java que contenga todos los elementos que tiene que contener
+
+	public OBJ getFullUserInfo(int user_id){}
+				*/
 	
 }
 

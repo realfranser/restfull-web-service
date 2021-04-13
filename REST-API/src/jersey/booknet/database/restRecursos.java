@@ -174,7 +174,7 @@ public class restRecursos {
 			 } 	 
 	}
 
-	public ArrayList<jersey.model.Book> filtrarLibrosRecomendados(int user_id, int calificacion_minima, String nombre_autor, String categoria){
+	public ArrayList<Book> filtrarLibrosRecomendados(int user_id, int calificacion_minima, String nombre_autor, String categoria){
 		if(conn == null) connect();
 		try {
 			/* Creo que no hace falta obtener el user
@@ -200,14 +200,12 @@ public class restRecursos {
 			if (categoria == null) categoria = '%%';
 			ArrayList <Book> filtered_books = new ArrayList<Book>();
 			for (int friend_id : all_friends_ids){
-
-			
 				prepStmt = conn.prepareStatement( "SELECT 	b.* FROM booknet.read_books rb, booknet.books b
 															WHERE 	rb.user_id = ? AND
 																	rb.user_rating > ? AND
 																	rb.category = ? AND
 																	b.authors_name = ?;");
-				prepStmt.setInt(1, user_id);
+				prepStmt.setInt(1, friend_id);
 				prepStmt.setInt(2, calificacion_minima);
 				prepStmt.setString(3, categoria);
 				prepStmt.setString(4, nombre_autor);
@@ -215,7 +213,9 @@ public class restRecursos {
 				rs = prepStmt.executeQuery();
 				conn.commit();
 				rs.next();
-				filtered_books.add(new Book(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+				do{
+					filtered_books.add(new Book(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+				}while(rs.next());
 			}
 
 			return filtered_books;
