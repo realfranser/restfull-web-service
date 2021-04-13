@@ -307,6 +307,31 @@ public class restRecursos {
 			 return false;//
 			 } 
 	}
+	public ArrayList<Integer> getFriendsId(int user_id){ // returns list of friends id
+		if(conn == null) {
+			 connect();
+		 }
+		 try {
+		 ArrayList<Integer> friends_id = new ArrayList<Integer>();
+		 prepStmt = conn.prepareStatement( "SELECT friend_id FROM booknet.friendship WHERE user_id = ?");
+		 prepStmt.setInt(1, user_id);
+		 rs = prepStmt.executeQuery();
+		 conn.commit();
+		 rs.next();
+		 do {
+			 friends_id.add(new Integer(rs.getInt(1))); // yyyymmdd
+		 }
+		 while(rs.next());
+		 return friends_id;
+		 }
+		 catch (SQLException e) {
+			// TODO: handle exception
+			 e.printStackTrace();
+			 return null;
+		}
+		
+	}
+	
 	
 	
 }
