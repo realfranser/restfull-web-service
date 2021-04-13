@@ -196,14 +196,29 @@ public class restRecursos {
 			}while(rs.next());
 
 			if (calificacion_minima == null) calificacion_minima = 0;
-			calificacion_minima = String.valueOf(calificacion_minima);
 			if (nombre_autor == null) nombre_autor = '%%';
 			if (categoria == null) categoria = '%%';
-			prepStmt = conn.prepareStatement( "SELECT * FROM booknet.read_books WHERE 	user_id = ? AND
-																						user_rating = ? AND
-																						 ")
+			ArrayList <Book> filtered_books = new ArrayList<Book>();
+			for (int friend_id : all_friends_ids){
 
-			return user;
+			
+				prepStmt = conn.prepareStatement( "SELECT 	b.* FROM booknet.read_books rb, booknet.books b
+															WHERE 	rb.user_id = ? AND
+																	rb.user_rating > ? AND
+																	rb.category = ? AND
+																	b.authors_name = ?;");
+				prepStmt.setInt(1, user_id);
+				prepStmt.setInt(2, calificacion_minima);
+				prepStmt.setString(3, categoria);
+				prepStmt.setString(4, nombre_autor);
+
+				rs = prepStmt.executeQuery();
+				conn.commit();
+				rs.next();
+				filtered_books.add(new Book(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+			}
+
+			return filtered_books;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
