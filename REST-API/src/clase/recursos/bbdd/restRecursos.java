@@ -234,7 +234,7 @@ public class restRecursos {
 		if(conn == null) {
 			 connect();
 		 }
-		 try {
+		 try { // No seria booknet.books ?
 			 prepStmt = conn.prepareStatement( "UPDATE booknet.book SET name=? authors_name=? category=? WHERE isbn = ?; ");
 			 prepStmt.setString(1,book.getName());
 			 prepStmt.setString(2,book.getAuthName());
