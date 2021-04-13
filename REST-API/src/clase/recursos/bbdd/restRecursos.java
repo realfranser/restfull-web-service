@@ -141,9 +141,9 @@ public class restRecursos {
 		 }
 		 try {
 			 prepStmt = conn.prepareStatement( "UPDATE booknet.user SET email=? edad=? WHERE user_id = ?; ");
-			 prepStmt.setInt(1,user_id);
-			 prepStmt.setString(2,email);
-			 prepStmt.setInt(3,edad);
+			 prepStmt.setString(1,email);
+			 prepStmt.setInt(2,edad);
+			 prepStmt.setInt(3,user_id);
 			 prepStmt.executeUpdate();
 			 return true;
 		 }
@@ -170,13 +170,13 @@ public class restRecursos {
 			 } 
 	}
 	
-	public boolean read_book(int user_id, int isbn , int rating , int read_date) { // links a book with a user 
+	public boolean readBook(int user_id, int isbn , int rating , int read_date) { // links a book with a user 
 		if(conn == null) {
 			 connect();
 		 }
 		 try {
 			 
-			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.read_books ('user_id','isbn','user_rating','read_date') VALUES (?,?,?,?);");
+			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.read_book ('user_id','isbn','user_rating','read_date') VALUES (?,?,?,?);");
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.setInt(2,isbn);
 			 prepStmt.setInt(3,rating);
@@ -193,6 +193,63 @@ public class restRecursos {
 			 
 		 }
 	
+	public boolean removeReadBook(int user_id , int isbn) {
+		
+		if(conn == null) {
+			 connect();
+		 }
+		 try {
+			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_book WHERE user_id=? AND isbn =?");
+			 prepStmt.setInt(1,user_id);
+			 prepStmt.setInt(1,isbn);
+			 prepStmt.executeUpdate();
+			 return true;
+		 }
+		 catch(SQLException e){
+			 e.printStackTrace();
+			 return false;
+			 } 
+	}	 
+	
+	public Book getBook(int isbn) {
+		if(conn == null) {
+			 connect();
+		 }
+		 try {
+			 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.book WHERE isbn = ?; ");
+			 prepStmt.setInt(1,isbn);
+			 rs = prepStmt.executeQuery();
+			 conn.commit();
+			 rs.next();
+			 Book book= new Book(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
+			 return book;
+		 }
+		 catch(SQLException e) {
+			 e.printStackTrace();
+			 return null;
+		 }
+	}
+	 
+	public boolean editBook(Book book){
+		if(conn == null) {
+			 connect();
+		 }
+		 try {
+			 prepStmt = conn.prepareStatement( "UPDATE booknet.book SET name=? authors_name=? category=? WHERE isbn = ?; ");
+			 prepStmt.setString(1,book.getName());
+			 prepStmt.setString(2,book.getAuthName());
+			 prepStmt.setString(3,book.getCategory());
+			 prepStmt.setInt(4,book.getIsbn());
+			 prepStmt.executeUpdate();
+			 return true;
+		 }
+		 catch(SQLException e){
+			 e.printStackTrace();
+			 return false;
+			 } 
+		
+		
+	}
 	
 	
 	
