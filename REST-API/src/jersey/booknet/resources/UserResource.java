@@ -38,7 +38,7 @@ public class BookResource {
 		  user = UserDao.getInstance().getModel().get(id);
 	      res = Response.ok(user).build();
 	  } else {
-		  //throw new RuntimeException("Get: Tarea con isbn " + isbn +  " no encontrada");
+		  //throw new RuntimeException("Get: Tarea con isbn " + Integer.toString(isbn) +  " no encontrada");
 	      res = Response.status(Response.Status.NOT_FOUND).build();
 	  }
 	  return res;
@@ -55,7 +55,7 @@ public class BookResource {
 		  user = UserDao.getInstance().getModel().get(id);
 	      res = Response.ok(user).build();
 	  } else {
-		  //throw new RuntimeException("Get: Tarea con isbn " + isbn +  " no encontrada");
+		  //throw new RuntimeException("Get: Tarea con isbn " + Integer.toString(isbn) +  " no encontrada");
 	      res = Response.status(Response.Status.NOT_FOUND).build();
 	  }
 	  return res;
@@ -78,7 +78,7 @@ public class BookResource {
 		  UserDao.getInstance().getModel().remove(id);
 	      res = Response.ok().build();
 	  } else {
-		  //throw new RuntimeException("Delete: Tarea con isbn " + isbn +  " no encontrada");
+		  //throw new RuntimeException("Delete: Tarea con isbn " + Integer.toString(isbn) +  " no encontrada");
 	      res = Response.noContent().build();
 	  }
 	  return res;

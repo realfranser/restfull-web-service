@@ -38,7 +38,7 @@ public class ReadBooksResource {
 		  read_book = ReadBookDao.getInstance().getModel().get(isbn);
 	      res = Response.ok(read_book).build();
 	  } else {
-		  //throw new RuntimeException("Get: Tarea con isbn " + isbn +  " no encontrada");
+		  //throw new RuntimeException("Get: Tarea con isbn " + Integer.toString(isbn) +  " no encontrada");
 	      res = Response.status(Response.Status.NOT_FOUND).build();
 	  }
 	  return res;
@@ -55,7 +55,7 @@ public class ReadBooksResource {
 		  read_book = ReadBookDao.getInstance().getModel().get(read_id);
 	      res = Response.ok(read_book).build();
 	  } else {
-		  //throw new RuntimeException("Get: Tarea con isbn " + isbn +  " no encontrada");
+		  //throw new RuntimeException("Get: Tarea con isbn " + Integer.toString(isbn) +  " no encontrada");
 	      res = Response.status(Response.Status.NOT_FOUND).build();
 	  }
 	  return res;

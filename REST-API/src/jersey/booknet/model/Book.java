@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 // Objeto Book serializable
 @XmlRootElement
 public class Book {
-	  private String isbn;
+	  private int isbn;
 	  private String name;
 	  private String auth_name;
 	  private String category;
@@ -14,7 +14,7 @@ public class Book {
 	  public Book(){
 	    
 	  }
-	  public Book (String isbn, String name, String auth_name, String category){
+	  public Book (int isbn, String name, String auth_name, String category){
 	    this.isbn = isbn;
 	    this.name = name;
 	    this.auth_name = auth_name;
@@ -23,7 +23,7 @@ public class Book {
 	  public String getIsbn() {
 	    return isbn;
 	  }
-	  public void setIsbn(String isbn) {
+	  public void setIsbn(int isbn) {
 	    this.isbn = isbn;
 	  }
 	  public String getName() {
