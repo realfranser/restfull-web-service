@@ -171,14 +171,39 @@ public class restRecursos {
 		 catch(SQLException e){
 			 e.printStackTrace();
 			 return false;
-			 } 
-	
-			 
+			 } 	 
+	}
+
+	public ArrayList<jersey.model.Book> filtrarLibrosRecomendados(int user_id, int calificacion_minima, String nombre_autor, String categoria){
+		if(conn == null) connect();
+		 try {
+			 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.users WHERE user_name = ?; ");
+			 prepStmt.setString(1,nick);
+			 rs = prepStmt.executeQuery();
+			 conn.commit();
+			 rs.next();
+			 jersey.booknet.model.User user = new jersey.booknet.model.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4));
+			 return user;
+		 }
+		 catch(SQLException e) {
+			 e.printStackTrace();
+			 return null;
 		 }
 	}
 	
-	
-	
+
+	}
+
+	/* Mostrar: datos basicos de un usuario -> String Nick, String email,String born_date,String reg_date;
+				ultimo libro leido 			-> int isbn, String name, String, auth_name, String category;
+				numero de amigos;
+				ultimo libro leido por sus amigos -> ??? Nick + Libro <-VS-> Libro Solo
+
+	DUDA => Hay que crear una clase que sea FullUser.java que contenga todos los elementos que tiene que contener
+
+	public OBJ getFullUserInfo(int user_id){}
+				*/
 	
 }
+
 
