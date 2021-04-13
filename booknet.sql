@@ -28,7 +28,7 @@ CREATE TABLE `books` (
   `isbn` int(11) NOT NULL AUTO_INCREMENT,
   `book_name` varchar(50) NOT NULL,
   `authors_name` varchar(50) NOT NULL,
-  `categoty` varchar(50) NOT NULL,
+  `category` varchar(50) NOT NULL,
   PRIMARY KEY (`isbn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -142,8 +142,8 @@ LIMIT 0, 1000
 
 -- Date: 2021-04-13 10:48
 */
-INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`categoty`) VALUES (1,'libro1','autor1','categoria1');
-INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`categoty`) VALUES (2,'libro2','autor2','categoria1');
+INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`category`) VALUES (1,'libro1','autor1','categoria1');
+INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`category`) VALUES (2,'libro2','autor2','categoria1');
 
 /*
 -- Query: SELECT * FROM booknet.users
