@@ -185,20 +185,23 @@ public class restRecursos {
 			rs.next();
 			jersey.booknet.model.User user = new jersey.booknet.model.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4));
 			*/
-			if (calificacion_minima == null) calificacion_minima = 0;
-			calificacion_minima = String.valueOf(calificacion_minima);
-			if (nombre_autor == null) nombre_autor = '%%';
-			if (categoria == null) categoria = '%%';
 			prepStmt = conn.prepareStatement( "SELECT friend_id FROM booknet.friendship WHERE user_id = ?;");
 			prepStmt.setString(1,user_id)
 			rs = prepStmt.executeQuery();
 			conn.commit();
 			rs.next();
-			/* Con esto sirve para conseguir todos los ids o hay que llamar varias veces a rs*/
 			ArrayList <Integers> all_friends_ids = new ArrayList<Integers>();
 			do{
 				all_friends_ids.add(rs.getInt(1));
 			}while(rs.next());
+
+			if (calificacion_minima == null) calificacion_minima = 0;
+			calificacion_minima = String.valueOf(calificacion_minima);
+			if (nombre_autor == null) nombre_autor = '%%';
+			if (categoria == null) categoria = '%%';
+			prepStmt = conn.prepareStatement( "SELECT * FROM booknet.read_books WHERE 	user_id = ? AND
+																						user_rating = ? AND
+																						 ")
 
 			return user;
 		}
