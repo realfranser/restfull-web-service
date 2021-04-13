@@ -28,7 +28,7 @@ CREATE TABLE `books` (
   `isbn` int(11) NOT NULL AUTO_INCREMENT,
   `book_name` varchar(50) NOT NULL,
   `authors_name` varchar(50) NOT NULL,
-  `categoty` varchar(50) NOT NULL,
+  `category` varchar(50) NOT NULL,
   PRIMARY KEY (`isbn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -82,7 +82,7 @@ CREATE TABLE `read_books` (
   `user_id` int(11) NOT NULL,
   `isbn` int(11) NOT NULL,
   `user_rating` int(11) NOT NULL,
-  `read_date` date NOT NULL,
+  `read_date` int NOT NULL,
   PRIMARY KEY (`read_id`),
   KEY `user_id` (`user_id`),
   KEY `isbn` (`isbn`),
@@ -111,8 +111,7 @@ CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `born_date` date NOT NULL,
-  `reg_date` date NOT NULL,
+  `edad` int NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -143,8 +142,8 @@ LIMIT 0, 1000
 
 -- Date: 2021-04-13 10:48
 */
-INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`categoty`) VALUES (1,'libro1','autor1','categoria1');
-INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`categoty`) VALUES (2,'libro2','autor2','categoria1');
+INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`category`) VALUES (1,'libro1','autor1','categoria1');
+INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`category`) VALUES (2,'libro2','autor2','categoria1');
 
 /*
 -- Query: SELECT * FROM booknet.users
@@ -152,8 +151,8 @@ LIMIT 0, 1000
 
 -- Date: 2021-04-13 11:06
 */
-INSERT INTO `users` (`user_id`,`user_name`,`email`,`born_date`,`reg_date`) VALUES (1,'user1','mail1@mail.com','1/1/1','2/2/2');
-INSERT INTO `users` (`user_id`,`user_name`,`email`,`born_date`,`reg_date`) VALUES (2,'user2','mail2@mail.com','2/2/2','3/3/3');
+INSERT INTO `users` (`user_id`,`user_name`,`email`,`born_date`,`reg_date`) VALUES (1,'user1','mail1@mail.com','1');
+INSERT INTO `users` (`user_id`,`user_name`,`email`,`born_date`,`reg_date`) VALUES (2,'user2','mail2@mail.com','2');
 
 /*
 -- Query: SELECT * FROM booknet.read_books
@@ -161,8 +160,8 @@ LIMIT 0, 1000
 
 -- Date: 2021-04-13 11:08
 */
-INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (1,1,1,1,'1/1/1');
-INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (2,2,2,2,'2/2/2');
+INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (1,1,1,1,'19990909');
+INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (2,2,2,2,'19990808');
 /*
 -- Query: SELECT * FROM booknet.friendship
 LIMIT 0, 1000

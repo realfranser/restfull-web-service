@@ -82,7 +82,7 @@ CREATE TABLE `read_books` (
   `user_id` int(11) NOT NULL,
   `isbn` int(11) NOT NULL,
   `user_rating` int(11) NOT NULL,
-  `read_date` date NOT NULL,
+  `read_date` int NOT NULL,
   PRIMARY KEY (`read_id`),
   KEY `user_id` (`user_id`),
   KEY `isbn` (`isbn`),
@@ -160,8 +160,8 @@ LIMIT 0, 1000
 
 -- Date: 2021-04-13 11:08
 */
-INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (1,1,1,1,'1/1/1');
-INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (2,2,2,2,'2/2/2');
+INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (1,1,1,1,'19990909');
+INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (2,2,2,2,'19990808');
 /*
 -- Query: SELECT * FROM booknet.friendship
 LIMIT 0, 1000
