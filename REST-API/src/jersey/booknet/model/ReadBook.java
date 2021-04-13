@@ -1,4 +1,4 @@
-package com.upmsocial.models;
+package jersey.booknet.model;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,7 +20,7 @@ public class ReadBook {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUserId() {
+	public int getUserId() {
 		return user_id;
 	}
 	public void setUserId(int user_id) {
@@ -41,21 +41,21 @@ public class ReadBook {
 	public Date getReadDate() {
 		return read_date;
 	}
-	public void setReadDate(Date date) {
-		this.date = date;
+	public void setReadDate(Date read_date) {
+		this.read_date = read_date;
 	}
 	
 	public ReadBook() {
 
     }
 
-    public ReadBook(int id, int user_id, id isbn, int rating, Date date) {
+    public ReadBook(int id, int user_id, int isbn, int rating, Date read_date) {
         super();
         this.id = id;
-        this.username = username;
-        this.date_post = date_post;
-        this.url = url;
-        this.description = description;
+        this.user_id = user_id;
+        this.isbn = isbn;
+        this.rating = rating;
+        this.read_date = read_date;
     }
     
 }

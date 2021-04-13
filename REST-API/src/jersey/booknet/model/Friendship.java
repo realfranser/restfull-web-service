@@ -1,4 +1,4 @@
-package com.upmsocial.models;
+package jersey.booknet.model;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
