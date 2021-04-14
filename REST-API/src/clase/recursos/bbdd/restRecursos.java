@@ -140,7 +140,7 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "UPDATE booknet.user SET email=? edad=? WHERE user_id = ?; ");
+			 prepStmt = conn.prepareStatement( "UPDATE booknet.users SET email=? edad=? WHERE user_id = ?; ");
 			 prepStmt.setString(1,email);
 			 prepStmt.setInt(2,edad);
 			 prepStmt.setInt(3,user_id);
@@ -176,7 +176,7 @@ public class restRecursos {
 		 }
 		 try {
 			 
-			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.read_book ('user_id','isbn','user_rating','read_date') VALUES (?,?,?,?);");
+			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.read_books ('user_id','isbn','user_rating','read_date') VALUES (?,?,?,?);");
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.setInt(2,isbn);
 			 prepStmt.setInt(3,rating);
@@ -199,7 +199,7 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_book WHERE user_id=? AND isbn =?");
+			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_books WHERE user_id=? AND isbn =?");
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.setInt(2,isbn);
 			 prepStmt.executeUpdate();
@@ -216,7 +216,7 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.book WHERE isbn = ?; ");
+			 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.books WHERE isbn = ?; ");
 			 prepStmt.setInt(1,isbn);
 			 rs = prepStmt.executeQuery();
 			 conn.commit();
@@ -234,8 +234,8 @@ public class restRecursos {
 		if(conn == null) {
 			 connect();
 		 }
-		 try { // No seria booknet.books ?
-			 prepStmt = conn.prepareStatement( "UPDATE booknet.book SET name=? authors_name=? category=? WHERE isbn = ?; ");
+		 try { // No seria booknet.bookss ?
+			 prepStmt = conn.prepareStatement( "UPDATE booknet.books SET name=? authors_name=? category=? WHERE isbn = ?; ");
 			 prepStmt.setString(1,book.getName());
 			 prepStmt.setString(2,book.getAuthName());
 			 prepStmt.setString(3,book.getCategory());
@@ -255,7 +255,7 @@ public class restRecursos {
 		 }
 		 try {
 		 ArrayList<ReadBook> readBooks = new ArrayList<ReadBook>();
-		 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.read_book WHERE user_id = ?");
+		 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.read_books WHERE user_id = ?");
 		 prepStmt.setInt(1, user_id);
 		 rs = prepStmt.executeQuery();
 		 conn.commit();
