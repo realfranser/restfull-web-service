@@ -478,12 +478,21 @@ public class restRecursos {
 		 * String book_name = rs.getString(2); String authors_name = rs.getString(3);
 		 * String category = rs.getString(4);
 		 */
-		jersey.booknet.model.User basic_info = getUser(user_id);
-		Book book = getLastReadBooks(user_id, 20220000, 0, 1).get(0);
-		ArrayList <Integer> friends_ids= getFriendsId(user_id, -1, -1);
-		int num_friends = friends_ids.size();
-		ArrayList <Book> last_book = getLastReadBooks(user_id,-1, -1, 1); // Book o nombre_libro ???
+		try{
+			jersey.booknet.model.User basic_info = getUser(user_id);
+			Book book = getLastReadBooks(user_id, 20220000, 0, 1).get(0);
+			ArrayList <Integer> friends_ids= getFriendsId(user_id, -1, -1);
+			int num_friends = friends_ids.size();
+			ArrayList <Book> last_book = getLastReadBooks(user_id,-1, -1, 1); // Book o nombre_libro ???
+			return new FullUser(basic_info, book, num_friends, last_book);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 		
 		// Crear clase FullUserInfo ?
+		
 	}
 }
