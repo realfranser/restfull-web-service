@@ -47,7 +47,8 @@ public class restRecursos {
 		}
 	}
 
-	public boolean insertUser(jersey.booknet.model.User u) throws SQLException { // inserts user
+	// Inserts user to the read net
+	public boolean insertUser(jersey.booknet.model.User u) throws SQLException {
 		if (conn == null) {
 			connect();
 		}
@@ -67,28 +68,63 @@ public class restRecursos {
 		}
 	}
 
-	public ArrayList<jersey.booknet.model.User> getUsers() { // returs all users on the database
+	// Returns the basic data of a user given it's ID
+	public jersey.booknet.model.User getUser(int id) {
 		if (conn == null) {
 			connect();
 		}
 		try {
-			ArrayList<jersey.booknet.model.User> users = new ArrayList<jersey.booknet.model.User>();
-			prepStmt = conn.prepareStatement("SELECT * FROM booknet.users ");
+			prepStmt = conn.prepareStatement("SELECT * FROM booknet.users WHERE user_id = ?; ");
+			prepStmt.setInt(1, id);
 			rs = prepStmt.executeQuery();
 			
 			rs.next();
-			do {
-				users.add(new jersey.booknet.model.User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
-			} while (rs.next());
-			return users;
+			jersey.booknet.model.User user = new jersey.booknet.model.User(rs.getInt(1), rs.getString(2),
+					rs.getString(3), rs.getInt(4));
+			return user;
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public ArrayList<jersey.booknet.model.User> getUsersWithName(String user_name) { // returns all users containing a given pattern
+	// Changes data from user (except user name)
+	public boolean changeUser(int user_id, String email, int edad) {
+		if (conn == null) {
+			connect();
+		}
+		try {
+			prepStmt = conn.prepareStatement("UPDATE booknet.user SET email=? edad=? WHERE user_id = ?; ");
+			prepStmt.setString(1, email);
+			prepStmt.setInt(2, edad);
+			prepStmt.setInt(3, user_id);
+			prepStmt.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	// Removes user from database given it's ID
+	public boolean removeUser(int user_id) {
+
+		if (conn == null) {
+			connect();
+		}
+		try {
+			prepStmt = conn.prepareStatement("DELETE FROM booknet.user WHERE user_id=?");
+			prepStmt.setInt(1, user_id);
+			prepStmt.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	// Returns all the users whose nick contains the pattern user_name
+	public ArrayList<jersey.booknet.model.User> getUsersWithName(String user_name) {
 		if (conn == null) {
 			connect();
 		}
@@ -110,65 +146,34 @@ public class restRecursos {
 		}
 	}
 
-	public jersey.booknet.model.User getUser(int id) { // return all basic info regarding a user with a given id
+	// Returns all the users on the database
+	public ArrayList<jersey.booknet.model.User> getUsers() {
 		if (conn == null) {
 			connect();
 		}
 		try {
-			prepStmt = conn.prepareStatement("SELECT * FROM booknet.users WHERE user_id = ?; ");
-			prepStmt.setInt(1, id);
+			ArrayList<jersey.booknet.model.User> users = new ArrayList<jersey.booknet.model.User>();
+			prepStmt = conn.prepareStatement("SELECT * FROM booknet.users ");
 			rs = prepStmt.executeQuery();
 			
 			rs.next();
-			jersey.booknet.model.User user = new jersey.booknet.model.User(rs.getInt(1), rs.getString(2),
-					rs.getString(3), rs.getInt(4));
-			return user;
+			do {
+				users.add(new jersey.booknet.model.User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
+			} while (rs.next());
+			return users;
 		} catch (SQLException e) {
+			// TODO: handle exception
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public boolean changeUser(int user_id, String email, int edad) { // changes basic info of a user with a given id
+	// Adds a read_book element to the database given the rating, date and book's isbn for a user
+	public boolean addReadBook(int user_id, int isbn, int rating, int read_date) {
 		if (conn == null) {
 			connect();
 		}
 		try {
-			prepStmt = conn.prepareStatement("UPDATE booknet.user SET email=? edad=? WHERE user_id = ?; ");
-			prepStmt.setString(1, email);
-			prepStmt.setInt(2, edad);
-			prepStmt.setInt(3, user_id);
-			prepStmt.executeUpdate();
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	public boolean removeUser(int user_id) { // removes user from db with a given id
-
-		if (conn == null) {
-			connect();
-		}
-		try {
-			prepStmt = conn.prepareStatement("DELETE FROM booknet.user WHERE user_id=?");
-			prepStmt.setInt(1, user_id);
-			prepStmt.executeUpdate();
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	// Anade la lectura de un libro por un usuario con una calificacion
-	public boolean addReadBook(int user_id, int isbn, int rating, int read_date) { // links a book with a user
-		if (conn == null) {
-			connect();
-		}
-		try {
-
 			prepStmt = conn.prepareStatement(
 					"INSERT INTO booknet.read_book ('user_id','isbn','user_rating','read_date') VALUES (?,?,?,?);");
 			prepStmt.setInt(1, user_id);
@@ -182,12 +187,10 @@ public class restRecursos {
 			e.printStackTrace();
 			return false;
 		}
-
 	}
 	
-	// Elimina la lectura de un libro por parte de un usuario
+	// Deletes a read_book element from the database given a user ID and the book's isbn
 	public boolean removeReadBook(int user_id, int isbn) {
-
 		if (conn == null) {
 			connect();
 		}
@@ -203,6 +206,7 @@ public class restRecursos {
 		}
 	}
 
+	// Returns a book given it's isbn (UNNECESSARY) 
 	public Book getBook(int isbn) {
 		if (conn == null) {
 			connect();
@@ -221,6 +225,7 @@ public class restRecursos {
 		}
 	}
 
+	// Edits the atributes of a book with a certain isbn
 	public boolean editBook(Book book) {
 		if (conn == null) {
 			connect();
@@ -240,6 +245,7 @@ public class restRecursos {
 		}
 	}
 
+	// Returns last read books of a user with theese filters: read before 'int date', books from 'int first' to 'int last'
 	public ArrayList<ReadBook> getBooksUser(int user_id, int date, int first, int last) {
 		if (conn == null) {
 			connect();
@@ -277,6 +283,7 @@ public class restRecursos {
 		}
 	}
 
+	// Adds a friend to the friendship list
 	public boolean addFriendship(int user_id, int friend_id) {
 		if (conn == null) {
 			connect();
@@ -295,6 +302,7 @@ public class restRecursos {
 
 	}
 
+	// Deletes a friend from the friendship list
 	public boolean removeFriendship(int user_id, int friend_id) {
 		if (conn == null) {
 			connect();
@@ -310,9 +318,9 @@ public class restRecursos {
 			return false;
 		}
 	}
-
-	public ArrayList<Integer> getFriendsId(int user_id, int first_row, int last_row) { // returns list of
-																						// friends id
+	// IMPORTANT: getFiends() required -> create a new function or use this one to call getUser(id) in a loop
+	//	Returns the IDs of the friends of a user from first_row to last_row 
+	public ArrayList<Integer> getFriendsId(int user_id, int first_row, int last_row) {																						
 		if (conn == null) {
 			connect();
 		}
@@ -345,7 +353,7 @@ public class restRecursos {
 
 	}
 
-	// Consulta los ultimos libros leidos por nuestros amigos. Filtros -> date, first row, last row
+	// Returns the last books read by our friends with theese filters -> date, first row, last row
 	public ArrayList<Book> getLastReadBooks(int user_id, int date, int first, int last){
 		if (conn == null) connect();
 		try{
@@ -386,6 +394,7 @@ public class restRecursos {
 		}
 	}
 
+	// Returns all read_books from our friends using theese filters -> calificacion (greater than), author's name, book category
 	public ArrayList<Book> filtrarLibrosRecomendados(int user_id, int calificacion_minima, String nombre_autor, String categoria){
 		if(conn == null) connect();
 		try {
@@ -451,6 +460,7 @@ public class restRecursos {
 	 * public OBJ getFullUserInfo(int user_id){}
 	 */
 
+	// Return the full info of a user -> basic info, last read book, number of friends, last book read by friends
 	public void getFullUserInfo(int user_id) { // return Set of elements
 
 		/*
