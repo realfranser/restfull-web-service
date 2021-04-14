@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Friendship {
 
 	private int friendship_id;
-	private String id_user1;
-	private String id_user2;
+	private int id_user1;
+	private int id_user2;
 
 	@XmlAttribute
 	public int getFriendship_id() {
@@ -20,26 +20,26 @@ public class Friendship {
 	}
 	
 
-	public String getId_user1() {
+	public int getId_user1() {
 		return id_user1;
 	}
 
-	public void setId_user1(String id_user1) {
+	public void setId_user1(int id_user1) {
 		this.id_user1 = id_user1;
 	}
 
-	public String getId_user2() {
+	public int getId_user2() {
 		return id_user2;
 	}
 
-	public void setId_user2(String id_user2) {
+	public void setId_user2(int id_user2) {
 		this.id_user2 = id_user2;
 	}
 
 	public Friendship() {
 	}
 
-	public Friendship(int friendship_id,String id_user1, String id_user2) {
+	public Friendship(int friendship_id,int id_user1, int id_user2) {
 		super();
 	    this.friendship_id = friendship_id;
 	    this.id_user1 = id_user1;

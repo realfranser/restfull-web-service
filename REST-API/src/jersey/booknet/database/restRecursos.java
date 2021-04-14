@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -48,25 +49,21 @@ public class restRecursos {
 		}
 		}
 	
-	public boolean insertUser(jersey.booknet.database.User u) throws SQLException { // inserts user
+	public jersey.booknet.database.User insertUser(jersey.booknet.database.User u) throws SQLException { // inserts user -- OK
 		 if(conn == null) {
 			 connect();
 		 }
-		 try {
-		 prepStmt = conn.prepareStatement( "INSERT INTO booknet.users ('user_name','email','edad') VALUES (?,?,?);");
+		
+		 prepStmt = conn.prepareStatement( "INSERT INTO booknet.users (`user_name`,`email`,`edad`) VALUES (?,?,?);",Statement.RETURN_GENERATED_KEYS);
 		 prepStmt.setString(1,u.getNick());
 		 prepStmt.setString(2,u.getEmail());
 		 prepStmt.setInt(3,u.getEdad());
-	
 		 prepStmt.executeUpdate();
-		 
-		 return true;
+		 rs = prepStmt.getGeneratedKeys();
+		 if (rs.next()) {
+			 u.setId(rs.getInt(1));
 		 }
-		 catch (SQLException e) {
-			// TODO: handle exception
-			 e.printStackTrace();
-			 return false;
-		}
+		 return u;
 		}
 	public ArrayList<jersey.booknet.database.User> getUsers() { // returs all users on the database
 		if(conn == null) {
@@ -115,7 +112,7 @@ public class restRecursos {
 		}
 	}
 	
-	public jersey.booknet.database.User getUser(int id){ // return all basic info regarding a user with a given id
+	public jersey.booknet.database.User getUser(int id){ // return all basic info regarding a user with a given id -- OK
 		if(conn == null) {
 			 connect();
 		 }
@@ -139,7 +136,7 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "UPDATE booknet.user SET email=? edad=? WHERE user_id = ?; ");
+			 prepStmt = conn.prepareStatement( "UPDATE booknet.users SET email=? edad=? WHERE user_id = ?; ");
 			 prepStmt.setString(1,email);
 			 prepStmt.setInt(2,edad);
 			 prepStmt.setInt(3,user_id);
@@ -158,7 +155,7 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.user WHERE user_id=?");
+			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.users WHERE user_id=?");
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.executeUpdate();
 			 return true;
@@ -175,7 +172,7 @@ public class restRecursos {
 		 }
 		 try {
 			 
-			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.read_book ('user_id','isbn','user_rating','read_date') VALUES (?,?,?,?);");
+			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.read_books ('user_id','isbn','user_rating','read_date') VALUES (?,?,?,?);");
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.setInt(2,isbn);
 			 prepStmt.setInt(3,rating);
@@ -198,7 +195,7 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_book WHERE user_id=? AND isbn =?");
+			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_books WHERE user_id=? AND isbn =?");
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.setInt(2,isbn);
 			 prepStmt.executeUpdate();
@@ -215,7 +212,7 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.book WHERE isbn = ?; ");
+			 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.books WHERE isbn = ?; ");
 			 prepStmt.setInt(1,isbn);
 			 rs = prepStmt.executeQuery();
 			 
@@ -254,7 +251,7 @@ public class restRecursos {
 		 }
 		 try {
 		 ArrayList<ReadBook> readBooks = new ArrayList<ReadBook>();
-		 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.read_book WHERE user_id = ?");
+		 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.read_books WHERE user_id = ?");
 		 prepStmt.setInt(1, user_id);
 		 rs = prepStmt.executeQuery();
 		 
@@ -272,32 +269,36 @@ public class restRecursos {
 		}
 	}
 	
-	public boolean addFriendship(int user_id, int friend_id) {
+	public Friendship addFriendship(Friendship friends) { // hay que 
 		if(conn == null) {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.friendship ('user_id','friend_id') VALUES (?,?);");
-			 prepStmt.setInt(1,user_id);
-			 prepStmt.setInt(2,friend_id);
+			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.friendship (`user_id`,`friend_id`) VALUES (?,?);",Statement.RETURN_GENERATED_KEYS);
+			 prepStmt.setInt(1,friends.getId_user1());
+			 prepStmt.setInt(2,friends.getId_user2());
 			 prepStmt.executeUpdate();
 			 
-			 return true;
+			 rs = prepStmt.getGeneratedKeys();
+			 if (rs.next()) {
+				 friends.setFriendship_id(rs.getInt(1));
+			 }
+			 return friends;
 		 }
 		 catch(SQLException e){
 			 e.printStackTrace();
-			 return false;
+			 return null;
 			 } 
 	
 	}
-	public boolean removeFriendship(int user_id, int friend_id) {
+	public boolean removeFriendship(Friendship friends) {
 		if(conn == null) {
 			 connect();
 		 }
 		 try {
 			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.friendship WHERE user_id=? AND friend_id =?");
-			 prepStmt.setInt(1,user_id);
-			 prepStmt.setInt(2,friend_id);
+			 prepStmt.setInt(1,friends.getId_user1());
+			 prepStmt.setInt(2,friends.getId_user2());
 			 prepStmt.executeUpdate();
 			 return true;
 		 }
