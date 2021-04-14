@@ -268,6 +268,33 @@ public class restRecursos {
 			 return null;
 		}
 	}
+	/*
+	public ArrayList<ReadBook> getBooksUser(int user_id, int date, int first, int last) {
+		if (conn == null) {
+			connect();
+		}
+		try {
+			ArrayList<ReadBook> readBooks = new ArrayList<ReadBook>();
+			prepStmt = conn.prepareStatement("SELECT b.* FROM booknet.read_book rb, booknet.books b 
+															WHERE 	rb.user_id = ? AND
+																	rb.read_date < ? AND
+																	rb.isbn = b.isbn ? 
+															ORDER BY	rb.read_date DESC;");
+			prepStmt.setInt(1, user_id);
+			rs = prepStmt.executeQuery();
+			conn.commit();
+			rs.next();
+			do {
+				readBooks.add(new ReadBook(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5))); // yyyymmdd
+			} while (rs.next());
+			return readBooks;
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+	}
+	*/
 	
 	public Friendship addFriendship(Friendship friends) { // hay que 
 		if(conn == null) {
@@ -312,6 +339,182 @@ public class restRecursos {
 			 } 
 	}
 	
-	
+	// IMPORTANT: getFiends() required -> create a new function or use this one to call getUser(id) in a loop
+	//	Returns the IDs of the friends of a user from first_row to last_row 
+	public ArrayList<Integer> getFriendsId(int user_id, int first_row, int last_row) {																						
+		if (conn == null) {
+			connect();
+		}
+		try {
+			ArrayList<Integer> friends_id = new ArrayList<Integer>();
+			if (first_row == -1) first_row = 0;
+			if (last_row == -1){
+				prepStmt = conn.prepareStatement( "SELECT COUNT(*) FROM booknet.friendship ;");
+				rs = prepStmt.executeQuery();
+				
+				rs.next();
+				last_row = rs.getInt(1);
+			}
+			prepStmt = conn.prepareStatement("SELECT friend_id FROM booknet.friendship WHERE user_id = ? OFFSET ? LIMIT ?;");
+			prepStmt.setInt(1, user_id);
+			prepStmt.setInt(2, first_row);
+			prepStmt.setInt(3, last_row);
+			rs = prepStmt.executeQuery();
+			
+			rs.next();
+			do {
+				friends_id.add(new Integer(rs.getInt(1))); // yyyymmdd
+			} while (rs.next());
+			return friends_id;
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	// Returns the last books read by our friends with theese filters -> date, first row, last row
+	public ArrayList<Book> getLastReadBooks(int user_id, int date, int first, int last){
+		if (conn == null) connect();
+		try{
+			ArrayList <Integer> friends_id = getFriendsId(user_id, -1, -1);
+			if (first == -1) first = 0;
+			if (last == -1){
+				prepStmt = conn.prepareStatement( "SELECT COUNT(*) FROM booknet.read_books ;");
+				rs = prepStmt.executeQuery();
+				
+				rs.next();
+				last = rs.getInt(1);
+			}
+			ArrayList <Book> filtered_books = new ArrayList<Book>();
+			for (int friend_id : friends_id){
+				prepStmt = conn.prepareStatement( "SELECT b.* 	FROM booknet.read_books rb, booknet.books b" +
+																"WHERE	rb.user_id = ? AND"		+
+																		"rb.read_date < ? AND"	+
+																		"rb.isbn = b.isbn"		+
+																"ORDER BY rb.read_date DESC"	+
+																"FETCH	first"	+
+																"LIMIT 	last ;");
+				prepStmt.setInt(1, friend_id);
+				prepStmt.setInt(2, date);
+
+				rs = prepStmt.executeQuery();
+				
+				rs.next();
+				do{
+					filtered_books.add(new Book(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+				}while(rs.next());
+			}
+
+				return filtered_books;
+		}catch (SQLException e){
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// Returns all read_books from our friends using theese filters -> calificacion (greater than), author's name, book category
+	public ArrayList<Book> filtrarLibrosRecomendados(int user_id, int calificacion_minima, String nombre_autor, String categoria){
+		if(conn == null) connect();
+		try {
+			/* Creo que no hace falta obtener el user
+			prepStmt = conn.prepareStatement( "SELECT * FROM booknet.users WHERE user_name = ?; ");
+			prepStmt.setString(1,user_id);
+			rs = prepStmt.executeQuery();
+			
+			rs.next();
+			jersey.booknet.model.User user = new jersey.booknet.model.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4));
+			*/
+			prepStmt = conn.prepareStatement( "SELECT friend_id FROM booknet.friendship WHERE user_id = ?;");
+			prepStmt.setInt(1,user_id);
+			rs = prepStmt.executeQuery();
+			
+			rs.next();
+			ArrayList <Integer> all_friends_ids = new ArrayList<Integer>();
+			do{
+				all_friends_ids.add(rs.getInt(1));
+			}while(rs.next());
+
+			if (calificacion_minima == -1) calificacion_minima = 0;
+			if (nombre_autor == "null") nombre_autor = "%%";
+			if (categoria == "null") categoria = "%%";
+			ArrayList <Book> filtered_books = new ArrayList<Book>();
+			for (int friend_id : all_friends_ids){
+				prepStmt = conn.prepareStatement( "SELECT 	b.* FROM booknet.read_books rb, booknet.books b"+
+															"WHERE 	rb.user_id = ? AND"		+
+																	"rb.user_rating > ? AND"+
+																	"rb.category = ? AND"	+
+																	"rb.isbn = b.isbn AND"	+
+																	"b.authors_name = ?;");
+				prepStmt.setInt(1, friend_id);
+				prepStmt.setInt(2, calificacion_minima);
+				prepStmt.setString(3, categoria);
+				prepStmt.setString(4, nombre_autor);
+
+				rs = prepStmt.executeQuery();
+				
+				rs.next();
+				do{
+					filtered_books.add(new Book(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+				}while(rs.next());
+			}
+
+			return filtered_books;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/*
+	 * Mostrar: datos basicos de un usuario -> String Nick, String email,String
+	 * born_date,String reg_date; ultimo libro leido -> int isbn, String name,
+	 * String, auth_name, String category; numero de amigos; ultimo libro leido por
+	 * sus amigos -> ??? Nick + Libro <-VS-> Libro Solo
+	 * 
+	 * DUDA => Hay que crear una clase que sea FullUser.java que contenga todos los
+	 * elementos que tiene que contener
+	 * 
+	 * public OBJ getFullUserInfo(int user_id){}
+	 */
+
+	// Return the full info of a user -> basic info, last read book, number of friends, last book read by friends
+	public void getFullUserInfo(int user_id) { // return Set of elements
+
+		/*
+		 * prepStmt =
+		 * conn.prepareStatement("SELECT * FROM booknet.users WHERE user_id = ?;");
+		 * prepStmt.setInt(1, user_id); rs = prepStmt.executeQuery(); 
+		 * rs.next(); int id = rs.getInt(1); Sting nick = rs.getString(2); Sting email =
+		 * rs.getString(3); Sting born_date = rs.getString(4); Sting reg_date =
+		 * rs.getString(5);
+		 * 
+		 * prepStmt = conn.prepareStatement("SELECT b.* FROM booknet.read_books rb,
+		 * booknet.books b WHERE rb.user_id = ? AND rb.isbn = b.isbn ORDER BY
+		 * rb.read_date DESC LIMIT 1;"); prepStmt.setInt(1, user_id); rs =
+		 * prepStmt.executeQuery();  rs.next(); int isbn = rs.getInt(1);
+		 * String book_name = rs.getString(2); String authors_name = rs.getString(3);
+		 * String category = rs.getString(4);
+		 */
+		try{
+			jersey.booknet.model.User basic_info = getUser(user_id);
+			Book book = getLastReadBooks(user_id, 20220000, 0, 1).get(0);
+			ArrayList <Integer> friends_ids= getFriendsId(user_id, -1, -1);
+			int num_friends = friends_ids.size();
+			ArrayList <Book> last_book = getLastReadBooks(user_id,-1, -1, 1); // Book o nombre_libro ???
+			return new FullUser(basic_info, book, num_friends, last_book);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		
+		// Crear clase FullUserInfo ?
+		
+	}	
 }
 
