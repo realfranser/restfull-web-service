@@ -1,4 +1,4 @@
-package jersey.booknet.model;
+package jersey.booknet.database;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
