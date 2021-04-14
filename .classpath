@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="ejemplos/REST1bClient/src"/>
+	<classpathentry kind="src" path="ejemplos/REST1bHolaMundo/src"/>
+	<classpathentry kind="src" path="ejemplos/REST1Client/src"/>
+	<classpathentry kind="src" path="ejemplos/REST1HolaMundo/src"/>
+	<classpathentry kind="src" path="ejemplos/REST2Client/src"/>
+	<classpathentry kind="src" path="ejemplos/REST2JAXRS/src"/>
+	<classpathentry kind="src" path="ejemplos/REST3Client/src"/>
+	<classpathentry kind="src" path="ejemplos/REST3TodoWebAPI/src"/>
+	<classpathentry kind="src" path="ejemplos/REST4Client/src"/>
+	<classpathentry kind="src" path="ejemplos/REST4TodosWebAPI/src"/>
+	<classpathentry kind="src" path="REST-API/src"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.web"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-8-oracle">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/restuser/software2018/mysql-connector-java-5.1.46/mysql-connector-java-5.1.46.jar"/>
+	<classpathentry kind="lib" path="/home/restuser/software2018/jaxrs-ri/api/javax.ws.rs-api-2.1.jar"/>
+	<classpathentry kind="output" path="REST-API/build/classes"/>
+</classpath>

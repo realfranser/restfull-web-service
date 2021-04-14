@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="REST-API">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST1bClient/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST1bHolaMundo/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST1Client/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST1HolaMundo/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST2Client/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST2JAXRS/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST3Client/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST3TodoWebAPI/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST4Client/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ejemplos/REST4TodosWebAPI/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/REST-API/src"/>
+        <property name="context-root" value="REST-API"/>
+        <property name="java-output-path" value="/REST-API/REST-API/build/classes"/>
+    </wb-module>
+</project-modules>
