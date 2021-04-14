@@ -296,11 +296,15 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.friendship WHERE user_id=? AND friend_id =?");
+			 prepStmt = conn.prepareStatement( "DELETE FROM `booknet`.`friendship` WHERE `user_id`=? AND `friend_id`=?;",Statement.EXECUTE_FAILED);
 			 prepStmt.setInt(1,friends.getId_user1());
 			 prepStmt.setInt(2,friends.getId_user2());
-			 prepStmt.executeUpdate();
-			 return true;
+			 int a = prepStmt.executeUpdate();
+			 if(a==1)
+			 return true ;
+			 else
+			 return false;
+			 
 		 }
 		 catch(SQLException e){
 			 e.printStackTrace();
