@@ -57,7 +57,7 @@ public class resources {
 	
 	@POST
 	@Path("{user_id}/friends")
-	@Consumes(MediaType.APPLICATION_JSON)// cambiar bbdd para que no pueda haber varias amistades iguales y que se añada en dos sentidos
+	@Consumes(MediaType.APPLICATION_JSON)// cambiar bbdd para que no pueda haber varias amistades iguales y que se añada en dos sentido
 	public Response addFriend(@PathParam("user_id") String user_id ,Friendship friendship) {
 		try {
 			int user_id_int = Integer.parseInt(user_id);
