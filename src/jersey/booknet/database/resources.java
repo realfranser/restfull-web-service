@@ -17,6 +17,13 @@ public class resources {
 		
 	}
 	
+	// Testing connection class
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getMainPage() {
+		return "Hello world!";
+	}
+	
 	@GET
 	@Path("{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
