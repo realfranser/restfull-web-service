@@ -112,11 +112,11 @@ public class restRecursos {
 		}
 	}
 	
-	public jersey.booknet.database.User getUser(int id){ // return all basic info regarding a user with a given id -- OK
+	public jersey.booknet.database.User getUser(int id) throws SQLException{ // return all basic info regarding a user with a given id -- OK
 		if(conn == null) {
 			 connect();
 		 }
-		 try {
+		 
 			 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.users WHERE user_id = ?; ");
 			 prepStmt.setInt(1,id);
 			 rs = prepStmt.executeQuery();
@@ -124,29 +124,33 @@ public class restRecursos {
 			 rs.next();
 			 jersey.booknet.database.User user = new jersey.booknet.database.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4));
 			 return user;
-		 }
-		 catch(SQLException e) {
-			 e.printStackTrace();
-			 return null;
-		 }
 	}
 	
-	public boolean changeUser(int user_id,String email, int edad) { // changes basic info of a user with a given id
+	public jersey.booknet.database.User changeUser(jersey.booknet.database.User user) throws SQLException{ // changes basic info of a user with a given id
 		if(conn == null) {
 			 connect();
 		 }
-		 try {
-			 prepStmt = conn.prepareStatement( "UPDATE booknet.users SET email=? edad=? WHERE user_id = ?; ");
-			 prepStmt.setString(1,email);
-			 prepStmt.setInt(2,edad);
-			 prepStmt.setInt(3,user_id);
+			System.out.println(user.getId());
+			System.out.println(user.getEdad());
+			System.out.println(user.getEmail());
+			if (user.getEdad()!=0 && user.getEmail() != null) {
+			 prepStmt = conn.prepareStatement( "UPDATE booknet.users SET email=? , edad=? WHERE user_id=?; ");
+			 prepStmt.setString(1,user.getEmail());
+			 prepStmt.setInt(2,user.getEdad());
+			 prepStmt.setInt(3,user.getId());
+			}
+			else if (user.getEdad()!=0) {
+				 prepStmt = conn.prepareStatement( "UPDATE booknet.users SET edad=? WHERE user_id=?; ");
+				 prepStmt.setInt(1,user.getEdad());
+				 prepStmt.setInt(2,user.getId());
+			}
+			else if (user.getEmail()!=null) {
+				 prepStmt = conn.prepareStatement( "UPDATE booknet.users SET email=? WHERE user_id=?; ");
+				 prepStmt.setString(1,user.getEmail()); 
+				 prepStmt.setInt(2,user.getId());
+			}
 			 prepStmt.executeUpdate();
-			 return true;
-		 }
-		 catch(SQLException e){
-			 e.printStackTrace();
-			 return false;
-			 } 
+			 return getUser(user.getId());
 	}
 	
 	public boolean removeUser(int user_id) { // removes user from db with a given id
@@ -311,6 +315,7 @@ public class restRecursos {
 			 return false;//
 			 } 
 	}
+	
 	
 	
 }

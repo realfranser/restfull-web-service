@@ -1,6 +1,8 @@
 package jersey.booknet.database;
 
 
+import java.sql.SQLException;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 // añadir al sql dump permisos de admin para user booknet
@@ -20,11 +22,14 @@ public class resources {
 	public Response getUsuario(@PathParam("user_id") String user_id) {
 		User u = new User();
 		int id = Integer.parseInt(user_id);
-		u = rec.getUser(id);
-		if(u!=null) 
-		return Response.ok(u).build();
-		else
-		return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
+		try {
+			u = rec.getUser(id);
+			return Response.ok(u).build();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
+		}
 	}
 	
 	@POST
@@ -54,6 +59,24 @@ public class resources {
 			return Response.status(Response.Status.NO_CONTENT).build();
 
 	}
+	
+	@PUT
+	@Path("{id_usuario}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateData(@PathParam("id_usuario") int user_id, jersey.booknet.database.User u) {
+		try {
+			u.setId(user_id);
+			jersey.booknet.database.User aux = rec.changeUser(u);
+			String location = uri.getAbsolutePath() + "";
+			return Response.status(Response.Status.OK).entity(aux).header("Location", location.toString()).build();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
+		}
+	}
+	
+	
 	
 	@POST
 	@Path("{user_id}/friends")
@@ -90,6 +113,7 @@ public class resources {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
 		}
 	}
+	
 	
 	
 	
