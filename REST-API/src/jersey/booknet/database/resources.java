@@ -2,6 +2,7 @@ package jersey.booknet.database;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -16,7 +17,26 @@ public class resources {
 		
 	}
 	
-	@GET
+	
+	
+	
+	@GET // con este get vale para cuando te dan usuario o no (punto 5 completo de las operaciones)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUsuarios(@QueryParam("user_name") @DefaultValue("")String user_name) {
+		try {
+			ArrayList<jersey.booknet.database.User> users = new ArrayList<jersey.booknet.database.User>();
+			users = rec.getUsersWithName(user_name);
+			return Response.ok(users).build();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
+		}
+	}
+	
+	
+	
+	@GET // devuelve datos de un usuario
 	@Path("{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsuario(@PathParam("user_id") String user_id) {

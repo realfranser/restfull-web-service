@@ -88,28 +88,21 @@ public class restRecursos {
 		}
 	}
 	 
-	public ArrayList<jersey.booknet.database.User> getUsersWithName(String user_name) { // returns all users with a given name
+	public ArrayList<jersey.booknet.database.User> getUsersWithName(String user_name) throws SQLException{ // returns all users with a given name
 		if(conn == null) {
 			 connect();
 		 }
-		 try {
+		System.out.println(user_name);
 		 ArrayList<jersey.booknet.database.User> users = new ArrayList<jersey.booknet.database.User>();
-		 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.users WHERE user_name = ?");
-		 prepStmt.setString(1, user_name);
+		 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.users WHERE user_name LIKE ?");
+		 prepStmt.setString(1, "%"+user_name+"%");
 		 rs = prepStmt.executeQuery();
-		 
 		 rs.next();
 		 do {
 			 users.add(new jersey.booknet.database.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4)));
 		 }
 		 while(rs.next());
 		 return users;
-		 }
-		 catch (SQLException e) {
-			// TODO: handle exception
-			 e.printStackTrace();
-			 return null;
-		}
 	}
 	
 	public jersey.booknet.database.User getUser(int id) throws SQLException{ // return all basic info regarding a user with a given id -- OK
@@ -130,9 +123,6 @@ public class restRecursos {
 		if(conn == null) {
 			 connect();
 		 }
-			System.out.println(user.getId());
-			System.out.println(user.getEdad());
-			System.out.println(user.getEmail());
 			if (user.getEdad()!=0 && user.getEmail() != null) {
 			 prepStmt = conn.prepareStatement( "UPDATE booknet.users SET email=? , edad=? WHERE user_id=?; ");
 			 prepStmt.setString(1,user.getEmail());
