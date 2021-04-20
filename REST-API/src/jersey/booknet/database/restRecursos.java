@@ -151,8 +151,11 @@ public class restRecursos {
 		 try {
 			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.users WHERE user_id=?");
 			 prepStmt.setInt(1,user_id);
-			 prepStmt.executeUpdate();
-			 return true;
+			 int a =  prepStmt.executeUpdate();
+			 if(a==1)
+				 return true ;
+				 else
+				 return false;
 		 }
 		 catch(SQLException e){
 			 e.printStackTrace();
@@ -160,25 +163,26 @@ public class restRecursos {
 			 } 
 	}
 	
-	public boolean readBook(int user_id, int isbn , int rating , int read_date) { // links a book with a user 
+	public ReadBook readBook(int user_id, ReadBook readbook) throws SQLException{ // links a book with a user 
 		if(conn == null) {
 			 connect();
 		 }
-		 try {
-			 
-			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.read_books ('user_id','isbn','user_rating','read_date') VALUES (?,?,?,?);");
+			System.out.println(user_id);
+			System.out.println(readbook.getIsbn());
+			 prepStmt = conn.prepareStatement( "INSERT INTO booknet.read_books (`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
 			 prepStmt.setInt(1,user_id);
-			 prepStmt.setInt(2,isbn);
-			 prepStmt.setInt(3,rating);
-			 prepStmt.setInt(3,read_date); // YYYYMMDD
+			 prepStmt.setInt(2,readbook.getIsbn());
+			 prepStmt.setInt(3,readbook.getRating());
+			 prepStmt.setInt(4,readbook.getReadDate()); // YYYYMMDD
 			 prepStmt.executeUpdate();
-			 
-			 return true;
-		 }
-		 catch(SQLException e){
-			 e.printStackTrace();
-			 return false;
-			 } 
+			 rs = prepStmt.getGeneratedKeys();
+			 if (rs.next()) {
+				 readbook.setId(rs.getInt(1));
+				 readbook.setUserId(user_id);
+			 }
+			 return readbook;
+		 
+		 
 	
 			 
 		 }
@@ -189,11 +193,15 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
+			 
 			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_books WHERE user_id=? AND isbn =?");
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.setInt(2,isbn);
-			 prepStmt.executeUpdate();
-			 return true;
+			 int a = prepStmt.executeUpdate();
+			 if(a==1)
+				 return true ;
+				 else
+				 return false;
 		 }
 		 catch(SQLException e){
 			 e.printStackTrace();
