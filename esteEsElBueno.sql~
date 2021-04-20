@@ -30,7 +30,7 @@ CREATE TABLE `books` (
   `authors_name` varchar(50) NOT NULL,
   `categoty` varchar(50) NOT NULL,
   PRIMARY KEY (`isbn`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,6 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'libro1','autor1','categoria1'),(2,'libro2','autor2','categoria1');
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,12 +54,12 @@ CREATE TABLE `friendship` (
   `user_id` int(11) NOT NULL,
   `friend_id` int(11) NOT NULL,
   PRIMARY KEY (`friendship_id`),
-  UNIQUE KEY `user_id_2` (`user_id`,`friend_id`),
   KEY `user_id` (`user_id`),
   KEY `friend_id` (`friend_id`),
+  UNIQUE KEY(user_id,friend_id),
   CONSTRAINT `friendship_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `friendship_ibfk_2` FOREIGN KEY (`friend_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +68,6 @@ CREATE TABLE `friendship` (
 
 LOCK TABLES `friendship` WRITE;
 /*!40000 ALTER TABLE `friendship` DISABLE KEYS */;
-INSERT INTO `friendship` VALUES (2,2,1);
 /*!40000 ALTER TABLE `friendship` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,14 +83,13 @@ CREATE TABLE `read_books` (
   `user_id` int(11) NOT NULL,
   `isbn` int(11) NOT NULL,
   `user_rating` int(11) NOT NULL,
-  `read_date` int(8) NOT NULL,
+  `read_date` date NOT NULL,
   PRIMARY KEY (`read_id`),
-  UNIQUE KEY `read_id_2` (`user_id`,`isbn`),
   KEY `user_id` (`user_id`),
   KEY `isbn` (`isbn`),
-  CONSTRAINT `read_books_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `read_books_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `read_books_ibfk_2` FOREIGN KEY (`isbn`) REFERENCES `books` (`isbn`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +98,6 @@ CREATE TABLE `read_books` (
 
 LOCK TABLES `read_books` WRITE;
 /*!40000 ALTER TABLE `read_books` DISABLE KEYS */;
-INSERT INTO `read_books` VALUES (1,1,1,1,1),(2,2,2,2,2),(3,1,2,0,1);
 /*!40000 ALTER TABLE `read_books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,9 +112,9 @@ CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `edad` int(11) NOT NULL,
+  `edad` int NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +123,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'user1','mail1@mail.com',1),(2,'user2','mail2@mail.com',2),(3,'user3','mail3@mail.com',3),(4,'jesus','A@e.e',99),(5,'jesus','e@e.e',3);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -140,4 +135,41 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-20 13:52:36
+-- Dump completed on 2021-04-13 10:40:13
+
+/*
+-- Query: SELECT * FROM booknet.books
+LIMIT 0, 1000
+
+-- Date: 2021-04-13 10:48
+*/
+INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`categoty`) VALUES (1,'libro1','autor1','categoria1');
+INSERT INTO `books` (`isbn`,`book_name`,`authors_name`,`categoty`) VALUES (2,'libro2','autor2','categoria1');
+
+/*
+-- Query: SELECT * FROM booknet.users
+LIMIT 0, 1000
+
+-- Date: 2021-04-13 11:06
+*/
+INSERT INTO `users` (`user_id`,`user_name`,`email`,`edad`) VALUES (1,'user1','mail1@mail.com','1');
+INSERT INTO `users` (`user_id`,`user_name`,`email`,`edad`) VALUES (2,'user2','mail2@mail.com','2');
+
+/*
+-- Query: SELECT * FROM booknet.read_books
+LIMIT 0, 1000
+
+-- Date: 2021-04-13 11:08
+*/
+INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (1,1,1,1,'1/1/1');
+INSERT INTO `read_books` (`read_id`,`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (2,2,2,2,'2/2/2');
+/*
+-- Query: SELECT * FROM booknet.friendship
+LIMIT 0, 1000
+
+-- Date: 2021-04-13 11:09
+*/
+INSERT INTO `friendship` (`friendship_id`,`user_id`,`friend_id`) VALUES (1,1,2);
+INSERT INTO `friendship` (`friendship_id`,`user_id`,`friend_id`) VALUES (2,2,1);
+
+
