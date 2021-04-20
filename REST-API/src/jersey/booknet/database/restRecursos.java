@@ -207,7 +207,50 @@ public class restRecursos {
 			 e.printStackTrace();
 			 return false;
 			 } 
-	}	 
+	}
+	public ReadBook getReadBook(int user_id, int isbn) throws SQLException{ // return all basic info regarding a user with a given id -- OK
+		if(conn == null) {
+			 connect();
+		 }
+		 
+			 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.read_books WHERE user_id = ? AND isbn=?; ");
+			 prepStmt.setInt(1,user_id);
+			 prepStmt.setInt(2,isbn);
+			 rs = prepStmt.executeQuery();
+			 
+			 rs.next();
+			 ReadBook book = new ReadBook(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getInt(5));
+			 return book;
+	}
+	
+	public ReadBook editReadBook(int user_id , ReadBook read_book) throws SQLException {
+		
+		if(conn == null) {
+			 connect();
+		 }
+			if (read_book.getRating()>0 && read_book.getReadDate()>0) {
+			 prepStmt = conn.prepareStatement( "UPDATE booknet.read_books SET user_rating=? , read_date=? WHERE user_id=? AND isbn=?; ");
+			 prepStmt.setInt(1,read_book.getRating());
+			 prepStmt.setInt(2,read_book.getReadDate());
+			 prepStmt.setInt(3,user_id);
+			 prepStmt.setInt(4,read_book.getIsbn());
+			}
+			else if (read_book.getRating()>0) {
+				 prepStmt = conn.prepareStatement( "UPDATE booknet.read_books SET user_rating=? WHERE user_id=? AND isbn=?; ");
+				 prepStmt.setInt(1,read_book.getRating());
+				 prepStmt.setInt(2,user_id);
+				 prepStmt.setInt(3,read_book.getIsbn());
+			}
+			else if (read_book.getReadDate()>0) {
+				 prepStmt = conn.prepareStatement( "UPDATE booknet.read_books SET read_date=? WHERE user_id=? AND isbn=?; ");
+				 prepStmt.setInt(1,read_book.getReadDate());
+				 prepStmt.setInt(2,user_id);
+				 prepStmt.setInt(3,read_book.getIsbn());
+			}
+			 prepStmt.executeUpdate();
+			 return getReadBook(user_id, read_book.getIsbn());
+	}
+	
 	
 	public Book getBook(int isbn) {
 		if(conn == null) {

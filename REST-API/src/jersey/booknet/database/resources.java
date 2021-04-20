@@ -51,9 +51,9 @@ public class resources {
 	}
 	
 	@PUT
-	@Path("{id_usuario}")// editar datos usuario 3 - OK
+	@Path("{user_id}")// editar datos usuario 3 - OK
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateData(@PathParam("id_usuario") int user_id, jersey.booknet.database.User u) {
+	public Response updateData(@PathParam("user_id") int user_id, jersey.booknet.database.User u) {
 		try {
 			u.setId(user_id);
 			jersey.booknet.database.User aux = rec.changeUser(u);
@@ -93,7 +93,9 @@ public class resources {
 	}
 	
 	//////// end_users ////////////////
+	
 	//////// lectura /////////////////
+	
 	@POST // añádir libro a usuario a la red  6 - OK  
 	@Path("{user_id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -113,9 +115,9 @@ public class resources {
 	
 	@DELETE // eliminar libro de ususario de la red  7 - OK  //se podria añádir un metodo que cheque si existe antes de ejecutar lo mismo para los ususarios y amistades
 	@Path("{user_id}/{isbn}")
-	public Response deleteReadBook(@PathParam("user_id") int user_id,@PathParam("isbn")String isbnString) {
-			int isbn = Integer.parseInt(isbnString);
-			if(isbnString == "") {
+	public Response deleteReadBook(@PathParam("user_id") int user_id,@PathParam("isbn")int isbn) {
+			//int isbn = Integer.parseInt(isbnString);
+			if(isbn == 0) {
 				return Response.status(Response.Status.PRECONDITION_FAILED).entity("NOT A VALID ISBN").build();
 			}
 			boolean aux = rec.removeReadBook(user_id, isbn);
@@ -126,7 +128,21 @@ public class resources {
 	}
 	
 
-	
+	@PUT
+	@Path("{user_id}/{isbn}")// editar datos libro leido ususario 8 - OK
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateReadBook(@PathParam("user_id") int user_id,@PathParam("isbn") int isbn, ReadBook read_book) {
+		try {
+			read_book.setIsbn(isbn);
+			ReadBook aux = rec.editReadBook(user_id, read_book);
+			String location = uri.getAbsolutePath() + "";
+			return Response.status(Response.Status.OK).entity(aux).header("Location", location.toString()).build();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
+		}
+	}
 	
 	
 	
