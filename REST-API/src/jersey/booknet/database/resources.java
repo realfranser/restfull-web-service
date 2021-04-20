@@ -20,7 +20,7 @@ public class resources {
 	
 	
 	
-	@GET // con este get vale para cuando te dan usuario o no (punto 5 completo de las operaciones)
+	@GET // con este get vale para cuando te dan usuario o no (punto 5 completo de las operaciones) - Ok
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsuarios(@QueryParam("user_name") @DefaultValue("")String user_name) {
 		try {
@@ -36,7 +36,7 @@ public class resources {
 	
 	
 	
-	@GET // devuelve datos de un usuario
+	@GET // devuelve datos de un usuario - OK
 	@Path("{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsuario(@PathParam("user_id") String user_id) {
@@ -52,7 +52,7 @@ public class resources {
 		}
 	}
 	
-	@POST
+	@POST // añádir usuario a la red - OK
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createUsuario(User u) {
 		try {
@@ -68,7 +68,7 @@ public class resources {
 		}
 	}
 	
-	@DELETE
+	@DELETE // eliminar ususario de la red - OK
 	@Path("{user_id}")
 	public Response deleteUser(@PathParam("user_id") int id_usuario) {
 		
@@ -81,7 +81,7 @@ public class resources {
 	}
 	
 	@PUT
-	@Path("{id_usuario}")
+	@Path("{id_usuario}")// editar datos usuario - OK
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateData(@PathParam("id_usuario") int user_id, jersey.booknet.database.User u) {
 		try {
@@ -99,7 +99,7 @@ public class resources {
 	
 	
 	@POST
-	@Path("{user_id}/friends")
+	@Path("{user_id}/friends") // crear amistad entre usuarios - OK
 	@Consumes(MediaType.APPLICATION_JSON)// cambiar bbdd para que no pueda haber varias amistades iguales y que se añada en dos sentido
 	public Response addFriend(@PathParam("user_id") String user_id ,Friendship friendship) {
 		try {
@@ -117,7 +117,7 @@ public class resources {
 	}
 	
 	@DELETE
-	@Path("{user_id}/friends")
+	@Path("{user_id}/friends") // eliminar amistad - OK !!!! comprobar que deberia devolver no lo tengo claro
 	@Consumes(MediaType.APPLICATION_JSON) // comprobar que devuelbe false o lo que sea si no exite 
 	public Response removeFriend(@PathParam("user_id") String user_id ,Friendship friendship) {
 		try {
