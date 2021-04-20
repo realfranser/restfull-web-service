@@ -149,7 +149,7 @@ public class restRecursos {
 			 connect();
 		 }
 		 try {
-			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.users WHERE user_id=?");
+			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.users WHERE user_id=?",Statement.EXECUTE_FAILED);
 			 prepStmt.setInt(1,user_id);
 			 int a =  prepStmt.executeUpdate();
 			 if(a==1)
@@ -194,7 +194,7 @@ public class restRecursos {
 		 }
 		 try {
 			 
-			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_books WHERE user_id=? AND isbn =?");
+			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_books WHERE user_id=? AND isbn =?",Statement.EXECUTE_FAILED);
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.setInt(2,isbn);
 			 int a = prepStmt.executeUpdate();
@@ -290,6 +290,7 @@ public class restRecursos {
 			 } 
 	}
 	
+	/*
 	public ArrayList<ReadBook> getBooksUser(int user_id){
 		if(conn == null) {
 			 connect();
@@ -313,6 +314,7 @@ public class restRecursos {
 			 return null;
 		}
 	}
+	*/
 	
 	public Friendship addFriendship(Friendship friends) { // hay que 
 		if(conn == null) {
@@ -357,6 +359,27 @@ public class restRecursos {
 			 } 
 	}
 	
+	public ArrayList <ReadBook> getReadBooks(int user_id , int date , int from , int to)throws SQLException{
+		
+		if(conn == null) {
+			 connect();
+		 }
+		ArrayList <ReadBook> readBooks = new ArrayList<ReadBook>();
+		int steps  = to - from;
+		prepStmt = conn.prepareStatement( "SELECT * FROM `booknet`.`read_books` WHERE `user_id`=? AND `read_date` BETWEEN ? AND ? LIMIT ?,?;",Statement.EXECUTE_FAILED);
+		prepStmt.setInt(1,user_id);
+		prepStmt.setInt(2,0);// se podria cambiar es un poco chapuza xd
+		prepStmt.setInt(3,date);
+		prepStmt.setInt(4,from);
+		prepStmt.setInt(5,steps);
+		rs = prepStmt.executeQuery();
+		rs.next();
+		 do {
+			 readBooks.add(new ReadBook(rs.getInt(1),rs.getInt(2),rs.getInt (3),rs.getInt(4),rs.getInt(5))); // yyyymmdd
+		 }
+		 while(rs.next());
+		return readBooks;
+	}
 	
 	
 }
