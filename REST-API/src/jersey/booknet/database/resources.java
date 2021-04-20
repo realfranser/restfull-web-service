@@ -48,8 +48,8 @@ public class resources {
 	public Response deleteUser(@PathParam("user_id") int id_usuario) {
 		
 			boolean aux = rec.removeUser(id_usuario);
-			if(!aux) { // hay que cambiar esto yo creo , lo elimina per no se que deberia devolver
-				return Response.status(Response.Status.PRECONDITION_FAILED).entity("EL USUARIO TIENE CUENTAS ABIERTAS").build();
+			if(!aux) { // hay que cambiar esto yo creo , lo elimina pero no se que deberia devolver
+				return Response.status(Response.Status.PRECONDITION_FAILED).entity("NO SE PUDO ELIMINAR EL USUARIO").build();
 			}
 			return Response.status(Response.Status.NO_CONTENT).build();
 
@@ -65,7 +65,6 @@ public class resources {
 			Friendship aux = rec.addFriendship(friendship);
 			String location = uri.getAbsolutePath() + "/" +aux.getFriendship_id();
 			return Response.status(Response.Status.CREATED).entity(aux).header("Location", location.toString()).build();
-
 		}
 		catch (Exception e) {
 			// TODO: handle exception
@@ -73,6 +72,7 @@ public class resources {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
 		}
 	}
+	
 	@DELETE
 	@Path("{user_id}/friends")
 	@Consumes(MediaType.APPLICATION_JSON) // comprobar que devuelbe false o lo que sea si no exite 
@@ -83,7 +83,6 @@ public class resources {
 			boolean state = rec.removeFriendship(friendship);
 			String location = uri.getAbsolutePath() + "/" +state;
 			return Response.status(Response.Status.CREATED).entity(state).header("Location", location.toString()).build();
-
 		}
 		catch (Exception e) {
 			// TODO: handle exception
