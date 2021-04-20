@@ -147,7 +147,7 @@ public class resources {
 	@GET // consultar ultimos libros leidos por usuario 9 - Ok
 	@Path("{user_id}/readings")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+	//@Consumes(MediaType.APPLICATION_JSON)
 	public Response getReadBooks(@PathParam("user_id") int user_id,@QueryParam("date") @DefaultValue("99999999")String date ,@QueryParam("from") @DefaultValue("0")int from ,@QueryParam("to") @DefaultValue("10")int to) {
 		try {
 			ArrayList<ReadBook> read_books = new ArrayList<ReadBook>();
@@ -168,7 +168,7 @@ public class resources {
 	/////// end_lectura //////////////
 	
 	@POST
-	@Path("{user_id}/friends") // crear amistad entre usuarios - OK
+	@Path("{user_id}/friends") // crear amistad entre usuarios 10 - OK
 	@Consumes(MediaType.APPLICATION_JSON)// cambiar bbdd para que no pueda haber varias amistades iguales y que se añada en dos sentido
 	public Response addFriend(@PathParam("user_id") String user_id ,Friendship friendship) {
 		try {
@@ -186,7 +186,7 @@ public class resources {
 	}
 	
 	@DELETE
-	@Path("{user_id}/friends") // eliminar amistad - OK !!!! comprobar que deberia devolver no lo tengo claro
+	@Path("{user_id}/friends") // eliminar amistad 11 - OK !!!! comprobar que deberia devolver no lo tengo claro
 	@Consumes(MediaType.APPLICATION_JSON) // comprobar que devuelbe false o lo que sea si no exite 
 	public Response removeFriend(@PathParam("user_id") String user_id ,Friendship friendship) {
 		try {
@@ -203,6 +203,21 @@ public class resources {
 		}
 	}
 	
+	@GET // consultar AMIGOS DE  usuario 12 - Ok
+	@Path("{user_id}/friends")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFriendship(@PathParam("user_id") int user_id,@QueryParam("friend_name") @DefaultValue("")String friend_name ,@QueryParam("from") @DefaultValue("0")int from ,@QueryParam("to") @DefaultValue("10")int to) {
+		try {
+			ArrayList<jersey.booknet.database.User> friends = new ArrayList<jersey.booknet.database.User>();
+			
+			friends = rec.listFriends(user_id, friend_name, from, to);
+			return Response.ok(friends).build();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
+		}
+	}
 	
 	
 	

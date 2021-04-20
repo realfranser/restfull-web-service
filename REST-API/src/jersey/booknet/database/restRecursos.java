@@ -381,6 +381,26 @@ public class restRecursos {
 		return readBooks;
 	}
 	
+	public ArrayList<jersey.booknet.database.User> listFriends(int user_id , String friend_name , int from , int to)throws SQLException{
+		if(conn == null) {
+			 connect();
+		 }
+		ArrayList <jersey.booknet.database.User> friends = new ArrayList<jersey.booknet.database.User>();
+		int steps  = to - from;
+		prepStmt = conn.prepareStatement( "SELECT * FROM `booknet`.`users` WHERE user_id IN(SELECT friend_id FROM `booknet`.`friendship` WHERE user_id = ? ) AND user_name LIKE ? LIMIT ?,?;",Statement.EXECUTE_FAILED);
+		prepStmt.setInt(1,user_id);
+		prepStmt.setString(2, "%"+friend_name+"%");
+		prepStmt.setInt(3,from);
+		prepStmt.setInt(4,steps);
+		rs = prepStmt.executeQuery();
+		rs.next();
+		 do {
+			 friends.add(new jersey.booknet.database.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4))); // yyyymmdd
+		 }
+		 while(rs.next());
+		return friends;
+	}
+	
 	
 }
 
