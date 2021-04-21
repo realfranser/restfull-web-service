@@ -37,11 +37,11 @@ public class resources {
 	@Path("{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsuario(@PathParam("user_id") String user_id) {
-		User u = new User();
+		
 		int id = Integer.parseInt(user_id);
 		try {
-			u = rec.getUser(id);
-			return Response.ok(u).build();
+			 
+			return Response.ok(rec.getUser(id)).build();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

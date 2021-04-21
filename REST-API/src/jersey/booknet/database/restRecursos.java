@@ -93,7 +93,7 @@ public class restRecursos {
 		if(conn == null) {
 			connect();
 		}
-		System.out.println(user_name);
+	
 		ArrayList<jersey.booknet.database.User> users = new ArrayList<jersey.booknet.database.User>();
 		prepStmt = conn.prepareStatement( "SELECT * FROM booknet.users WHERE user_name LIKE ?");
 		prepStmt.setString(1, "%"+user_name+"%");
@@ -170,8 +170,6 @@ public class restRecursos {
 		if(conn == null) {
 			connect();
 		}
-		System.out.println(user_id);
-		System.out.println(readbook.getIsbn());
 		prepStmt = conn.prepareStatement( "INSERT INTO booknet.read_books (`user_id`,`isbn`,`user_rating`,`read_date`) VALUES (?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
 		prepStmt.setInt(1,user_id);
 		prepStmt.setInt(2,readbook.getIsbn());
