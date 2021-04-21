@@ -401,6 +401,27 @@ public class restRecursos {
 		return friends;
 	}
 	
+	public ArrayList<ReadBook> listReadingsFriends(int user_id , int date , int from , int to)throws SQLException{
+		if(conn == null) {
+			 connect();
+		 }
+		ArrayList <ReadBook> friendsReadings = new ArrayList<ReadBook>();
+		int steps  = to - from;
+		prepStmt = conn.prepareStatement( "SELECT * FROM `booknet`.`read_books` WHERE user_id IN(SELECT friend_id FROM `booknet`.`friendship` WHERE user_id = ? ) AND `read_date` BETWEEN ? AND ? LIMIT ?,?;",Statement.EXECUTE_FAILED);
+		prepStmt.setInt(1,user_id);
+		prepStmt.setInt(2,0);
+		prepStmt.setInt(3,date);
+		prepStmt.setInt(4,from);
+		prepStmt.setInt(5,steps);
+		rs = prepStmt.executeQuery();
+		rs.next();
+		do {
+			 friendsReadings.add(new ReadBook(rs.getInt(1),rs.getInt(2),rs.getInt (3),rs.getInt(4),rs.getInt(5))); // yyyymmdd
+		 }
+		 while(rs.next());
+		return friendsReadings;
+	}
+	
 	
 }
 

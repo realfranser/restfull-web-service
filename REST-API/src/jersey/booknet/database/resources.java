@@ -219,6 +219,22 @@ public class resources {
 		}
 	}
 	
+	@GET// consultar lecturas de AMIGOS DE  usuario 13 - Ok
+	@Path("{user_id}/friendsreadings")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getReadingsFriends(@PathParam("user_id") int user_id,@QueryParam("date") @DefaultValue("99999999")String date ,@QueryParam("from") @DefaultValue("0")int from ,@QueryParam("to") @DefaultValue("10")int to) {
+		try {
+			ArrayList<ReadBook> readingsFriends = new ArrayList<ReadBook>();
+			int dateInt = Integer.parseInt(date);
+			readingsFriends = rec.getReadBooks(user_id,dateInt, from, to);
+			return Response.ok(readingsFriends).build();
+		}
+		catch(SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
+		}
+	}
 	
 	
 	
