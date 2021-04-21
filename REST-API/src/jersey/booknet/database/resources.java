@@ -16,7 +16,6 @@ public class resources {
 	public resources() {
 		
 	}
-	
 	///// users //////////
 	@POST // añádir usuario a la red  1 - OK   
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -251,6 +250,20 @@ public class resources {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
 		}
 	}
+	
+	@GET
+	@Path("/{user_id}/appData")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAppData(@PathParam("user_id") int user_id) {
+		try {
+			return Response.ok(rec.getAppData(user_id)).build();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
+		}
+	}
+	
 	
 	
 	

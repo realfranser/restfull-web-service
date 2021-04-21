@@ -12,6 +12,7 @@ public class ReadBook {
 	private int isbn; // Foreign-Key-2
 	private int rating;
 	private int read_date;
+	private Book book;
 
 	@XmlAttribute
 	public int getId() {
@@ -44,7 +45,12 @@ public class ReadBook {
 	public void setReadDate(int read_date) { // yyyymmdd
 		this.read_date = read_date;
 	}
-	
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
+		this.book = book;
+	}
 	public ReadBook() {
 
     }
@@ -57,5 +63,14 @@ public class ReadBook {
         this.rating = rating;
         this.read_date = read_date;
     }
-    
+    public ReadBook(int id, int user_id, int isbn, int rating, int read_date,Book book) {
+        super();
+        this.id = id;
+        this.user_id = user_id;
+        this.isbn = isbn;
+        this.rating = rating;
+        this.read_date = read_date;
+        this.setBook(book);
+    }
+
 }
