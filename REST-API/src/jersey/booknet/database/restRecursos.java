@@ -423,5 +423,29 @@ public class restRecursos {
 	}
 	
 	
+	public ArrayList<Book> getFriendsRecomendations(int user_id,int rating, String author,String category)throws SQLException{
+		
+		if(conn == null) {
+			 connect();
+		 }
+		ArrayList <Book> friendsRecomendations = new ArrayList<Book>();
+		prepStmt = conn.prepareStatement( "SELECT * FROM `booknet`.`books` WHERE isbn IN(SELECT isbn FROM `booknet`.`read_books` WHERE user_id IN(SELECT friend_id FROM `booknet`.`friendship` WHERE user_id = ? AND `user_rating` BETWEEN ? AND ?)) AND `authors_name` LIKE ? AND `category` LIKE ?;",Statement.EXECUTE_FAILED);
+		prepStmt.setInt(1,user_id);
+		prepStmt.setInt(2,rating);
+		prepStmt.setInt(3,10);// esto se puede cambiar
+		prepStmt.setString(4,"%"+author+"%");
+		prepStmt.setString(5,"%"+category+"%");
+		rs = prepStmt.executeQuery();
+		rs.next();
+		do {
+			 friendsRecomendations.add(new Book(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4))); // yyyymmdd
+		 }
+		 while(rs.next());
+		return friendsRecomendations;
+	}
+		
 }
+	
+	
+
 

@@ -235,6 +235,22 @@ public class resources {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
 		}
 	}
+	@GET 
+	@Path("{user_id}/friendsrecomendations")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFriendsRecomendations(@PathParam("user_id") int user_id,@QueryParam("rating") @DefaultValue("0")String rating,@QueryParam("author") @DefaultValue("")String author,@QueryParam("category") @DefaultValue("")String category) {
+		try {
+			ArrayList<Book> recomendationsFriends = new ArrayList<Book>();
+			int ratingInt = Integer.parseInt(rating);
+			recomendationsFriends = rec.getFriendsRecomendations(user_id,ratingInt, author,category);
+			return Response.ok(recomendationsFriends).build();
+		}
+		catch(SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("ERROR ACCESO BBDD").build();
+		}
+	}
 	
 	
 	
