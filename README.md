@@ -265,15 +265,128 @@ hola
 
 ### Users
 
+#### **[POST]** ~/users
+| URI        		| http://localhost:8080/booknet/api/v1/users/ | 
+| ------------- 	|-------------			|
+| Descripción       | Permite crear un usuario, enviando una estructura JSON del tipo User. |
+| Método      	| POST 					    |
+| Cadena de consulta| Ninguna                      |
+| Cuerpo 			| POX (users/user+json)	|  
+| Devuelve      	| <ul><li>``201`` : Created y cabecera Location</li><li>``406`` : Not Acceptable</li><li>``415`` : Unsupported Media Type</li></ul>|  
+
+#### **[GET]** ~/users/{user_id}
+| URI        		| http://localhost:8080/booknet/api/v1/users/{user_id} |
+| ------------- 	|-------------	| 
+| Descripción       | Devuelve en formato JSON la informacion del usuario con user_id con primary key. |
+| Método      	    | GET 			|
+| Cadena de consulta| <ul><li>filter\_by\_id= búsqueda por user_id</li></ul>
+| Cuerpo 			| Ninguno		|  
+| Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+json)</li><li>``404`` : Not Found</li></ul>|
+
+### **[PUT]** ~/users/{user_id}
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id} 									| 
+| ------------- 	|-------------			|
+| Descripción       | Modifica los atributos de un usuario                    |
+| Método      	| PUT 						|
+| Cadena de consulta| Ninguna                      |
+| Cuerpo 			| POX (users/user+json)	|  
+| Devuelve      	| <ul><li>``200`` : OK</li><li>``201`` : Created y cabecera Location *(1)</li><li>``406`` : Not Acceptable</li><li>``415`` : Unsupported Media Type</li></ul>|
+
+#### **[DELETE]** ~/users/{user_id}
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id} | 
+| ------------- 	|-------------			|
+| Descripción       | Elimina a un usuario de la red |
+| Método      	| DELETE 					|
+| Cadena de consulta| Ninguna                      |
+| Cuerpo 			| Ninguno|  
+| Devuelve      	| <ul><li>``200`` : OK</li><li>``404`` : Not Found</li><li>``503`` : Service Unavailable</li></ul>|  
+
 #### **[GET]** ~/users
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/ |
 | ------------- 	|-------------	| 
-| Descripción       | Devuelve una lista de usuarios de toda la red. Si se le incluye parámetro filter_by_text, solo devuelve los que coincidan con ese requisito. |
+| Descripción       | Devuelve una lista de usuarios de la red que contenga en su nombre el parametro user_name. En caso de no proporcionar este parametro, se devuelve toda la red de usuarios. |
 | Método      	    | GET 			|
 | Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por nombre</li></ul>
 | Cuerpo 			| Ninguno		|  
 | Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+xml)</li><li>``404`` : Not Found</li></ul>|
 
+#### **[POST]** ~/users/{user_id}
+| URI        		| http://localhost:8080/booknet/api/v1/users/{user_id} | 
+| ------------- 	|-------------			|
+| Descripción       | Permite anadir un libro leido por un usuario a la red, enviando una estructura JSON del tipo read_book. |
+| Método      	| POST 					    |
+| Cadena de consulta| Ninguna                      |
+| Cuerpo 			| POX (users/user+json)	|  
+| Devuelve      	| <ul><li>``201`` : Created y cabecera Location</li><li>``406`` : Not Acceptable</li><li>``415`` : Unsupported Media Type</li></ul>|  
 
-###
+#### **[DELETE]** ~/users/{user_id}/read_books/{isbn}
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/read_books/{isbn} | 
+| ------------- 	|-------------			|
+| Descripción       | Elimina la lectura de un libro por parte de un usuario.|
+| Método      	| DELETE 					|
+| Cadena de consulta| Ninguna                      |
+| Cuerpo 			| Ninguno|  
+| Devuelve      	| <ul><li>``200`` : OK</li><li>``404`` : Not Found</li><li>``503`` : Service Unavailable</li></ul>|  
 
+### **[PUT]** ~/users/{user_id}/read_books/{isbn}
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/read_books/{isbn}							| 
+| ------------- 	|-------------			|
+| Descripción       | Modifica los atributos de la lectura de un libro |
+| Método      	| PUT 						|
+| Cadena de consulta| Ninguna                      |
+| Cuerpo 			| POX (users/user+json)	|  
+| Devuelve      	| <ul><li>``200`` : OK</li><li>``201`` : Created y cabecera Location *(1)</li><li>``406`` : Not Acceptable</li><li>``415`` : Unsupported Media Type</li></ul>|
+
+#### **[GET]** ~/users/{user_id}/readings
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/readings |
+| ------------- 	|-------------	| 
+| Descripción       | Permite consultar los ultimos libros leidos por un usuario en funcion de una fecha y con los criterios de paginacion adecuados. |
+| Método      	    | GET 			|
+| Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por fecha</li></ul>
+| Cuerpo 			| Ninguno		|  
+| Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+json)</li><li>``404`` : Not Found</li></ul>|
+
+#### **[POST]** ~/users/{user_id}/friends/
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{username}/friends/  |
+| ------------- 	|-------------			|
+| Descripción       |  Crea una amistad de un usuario con otro     |
+| Método      	    | POST 					|
+| Cadena de consulta| Ninguna                    |
+| Cuerpo 			| Ninguno	|  
+| Devuelve      	| <ul><li>``201`` : Created y cabecera Location</li><li>``302`` : Found</li><li>``404`` : Not Found</li></ul>|
+
+#### **[DELETE]** ~/users/{user_id}/friends/
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/friends    | 
+| ------------- 	|-------------			|
+| Descripción       | Elimina amistad de un usuario con otro.   |
+| Método      	| DELETE 					|
+| Cadena de consulta| Ninguna                      |
+| Cuerpo 			| Ninguno|  
+| Devuelve      	| <ul><li>``200`` : OK</li><li>``404`` : Not Found</li><li>``503`` : Service Unavailable</li></ul>|  
+
+#### **[GET]** ~/users/{user_id}/friends
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/friends |
+| ------------- 	|-------------	| 
+| Descripción       | Permite consultar los amigos de un usuario en funcion de un parametro nombre, en caso de que este no se introduzca, se devolvera la lista completa de amigos de un usuario. |
+| Método      	    | GET 			|
+| Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por nombre</li></ul>
+| Cuerpo 			| Ninguno		|  
+| Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+json)</li><li>``404`` : Not Found</li></ul>|
+
+#### **[GET]** ~/users/{user_id}/friendsreadings
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/friendsreadings |
+| ------------- 	|-------------	| 
+| Descripción       | Permite consultar las lecturas de libros por parte de los amigos de un usuario en funcion de la fecha de lectura. |
+| Método      	    | GET 			|
+| Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por fecha</li></ul>
+| Cuerpo 			| Ninguno		|  
+| Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+json)</li><li>``404`` : Not Found</li></ul>|
+
+#### **[GET]** ~/users/{user_id}/friendsrecomendations
+| URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/friendsrecomendations |
+| ------------- 	|-------------	| 
+| Descripción       | Permite consultar las recomendaciones de libros por parte de los amigos de un usuario en funcion de la fecha de lectura, el rating y el nombre del autor. |
+| Método      	    | GET 			|
+| Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por nombre</li></ul>
+| Cuerpo 			| Ninguno		|  
+| Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+xml)</li><li>``404`` : Not Found</li></ul>|
