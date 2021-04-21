@@ -187,10 +187,12 @@ public class resources {
 	@DELETE
 	@Path("{user_id}/friends") // eliminar amistad 11 - OK !!!! comprobar que deberia devolver no lo tengo claro
 	@Consumes(MediaType.APPLICATION_JSON) // comprobar que devuelbe false o lo que sea si no exite 
-	public Response removeFriend(@PathParam("user_id") String user_id ,Friendship friendship) {
+	public Response removeFriend(@PathParam("user_id") String user_id ,@QueryParam("friend")int friend) {
 		try {
 			int user_id_int = Integer.parseInt(user_id);
+			Friendship friendship = new Friendship();
 			friendship.setId_user1(user_id_int);
+			friendship.setId_user2(friend);
 			boolean state = rec.removeFriendship(friendship);
 			String location = uri.getAbsolutePath() + "/" +state;
 			return Response.status(Response.Status.CREATED).entity(state).header("Location", location.toString()).build();
@@ -205,7 +207,7 @@ public class resources {
 	@GET // consultar AMIGOS DE  usuario 12 - Ok
 	@Path("{user_id}/friends")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFriendship(@PathParam("user_id") int user_id,@QueryParam("friend_name") @DefaultValue("")String friend_name ,@QueryParam("from") @DefaultValue("0")int from ,@QueryParam("to") @DefaultValue("10")int to) {
+	public Response getFriendship(@PathParam("user_id") int user_id,@QueryParam("friend_name") @DefaultValue("")String friend_name ,@QueryParam("from") @DefaultValue("0")int from ,@QueryParam("to") @DefaultValue("999999")int to) {
 		try {
 			ArrayList<jersey.booknet.database.User> friends = new ArrayList<jersey.booknet.database.User>();
 			
