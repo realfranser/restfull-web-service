@@ -30,7 +30,7 @@ CREATE TABLE `books` (
   `authors_name` varchar(50) NOT NULL,
   `category` varchar(50) NOT NULL,
   PRIMARY KEY (`isbn`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'libro1','autor1','categoria1'),(2,'libro2','autor2','categoria1');
+INSERT INTO `books` VALUES (1,'libro1','autor1','categoria1'),(2,'libro2','autor2','categoria1'),(3,'libro3','autor3','categoria1'),(4,'libro4','autor4','categoria2'),(5,'libro5','autor4','categoria3');
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +69,7 @@ CREATE TABLE `friendship` (
 
 LOCK TABLES `friendship` WRITE;
 /*!40000 ALTER TABLE `friendship` DISABLE KEYS */;
-INSERT INTO `friendship` VALUES (9,1,2),(10,1,3),(11,1,4),(2,2,1);
+INSERT INTO `friendship` VALUES (1,1,2),(2,1,3),(3,2,1),(4,2,3),(5,3,1),(6,3,2);
 /*!40000 ALTER TABLE `friendship` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `read_books` (
   KEY `isbn` (`isbn`),
   CONSTRAINT `read_books_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `read_books_ibfk_2` FOREIGN KEY (`isbn`) REFERENCES `books` (`isbn`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +101,7 @@ CREATE TABLE `read_books` (
 
 LOCK TABLES `read_books` WRITE;
 /*!40000 ALTER TABLE `read_books` DISABLE KEYS */;
-INSERT INTO `read_books` VALUES (2,2,2,2,2),(3,1,2,10,1),(15,1,1,5,19990909),(16,2,1,2,20000202),(17,3,2,5,2323),(18,3,1,6,99999999);
+INSERT INTO `read_books` VALUES (1,1,1,5,20001102),(2,1,2,7,20001106),(3,1,3,3,19990202),(4,2,1,6,20010806),(5,2,2,2,20051203),(6,3,4,8,20091005),(7,3,5,4,19880407);
 /*!40000 ALTER TABLE `read_books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +118,7 @@ CREATE TABLE `users` (
   `email` varchar(50) NOT NULL,
   `edad` int(11) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'user1','mail1@mail.com',1),(2,'user2','mail2@mail.com',2),(3,'user3','mail3@mail.com',3),(4,'jesus','A@e.e',99),(5,'jesus','e@e.e',3);
+INSERT INTO `users` VALUES (1,'user1','mail1@mail.com',50),(2,'user2','mail2@mail.com',20),(3,'user3','mail3@mail.com',22),(4,'user4','mail4@mail.com',34);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -140,4 +140,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-21 13:31:33
+-- Dump completed on 2021-04-21 16:01:09
