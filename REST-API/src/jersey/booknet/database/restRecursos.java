@@ -507,8 +507,6 @@ public class restRecursos {
 		dataUser.setFriendsNumber(friendsNumber);
 		dataUser.setLastBookFriends(lastBookFriends);
 		return dataUser;
-
-
 	}
 }
 
