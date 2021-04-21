@@ -28,7 +28,7 @@ CREATE TABLE `books` (
   `isbn` int(11) NOT NULL AUTO_INCREMENT,
   `book_name` varchar(50) NOT NULL,
   `authors_name` varchar(50) NOT NULL,
-  `categoty` varchar(50) NOT NULL,
+  `category` varchar(50) NOT NULL,
   PRIMARY KEY (`isbn`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -60,7 +60,7 @@ CREATE TABLE `friendship` (
   KEY `friend_id` (`friend_id`),
   CONSTRAINT `friendship_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `friendship_ibfk_2` FOREIGN KEY (`friend_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `friendship` (
 
 LOCK TABLES `friendship` WRITE;
 /*!40000 ALTER TABLE `friendship` DISABLE KEYS */;
-INSERT INTO `friendship` VALUES (2,2,1);
+INSERT INTO `friendship` VALUES (9,1,2),(10,1,3),(11,1,4),(2,2,1);
 /*!40000 ALTER TABLE `friendship` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `read_books` (
   KEY `isbn` (`isbn`),
   CONSTRAINT `read_books_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `read_books_ibfk_2` FOREIGN KEY (`isbn`) REFERENCES `books` (`isbn`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +101,7 @@ CREATE TABLE `read_books` (
 
 LOCK TABLES `read_books` WRITE;
 /*!40000 ALTER TABLE `read_books` DISABLE KEYS */;
-INSERT INTO `read_books` VALUES (1,1,1,1,1),(2,2,2,2,2),(3,1,2,0,1);
+INSERT INTO `read_books` VALUES (2,2,2,2,2),(3,1,2,10,1),(15,1,1,5,19990909),(16,2,1,2,20000202),(17,3,2,5,2323),(18,3,1,6,99999999);
 /*!40000 ALTER TABLE `read_books` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,4 +140,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-20 13:52:36
+-- Dump completed on 2021-04-21 13:31:33
