@@ -242,7 +242,7 @@ public class resources {
 		try {
 			ArrayList<Book> recomendationsFriends = new ArrayList<Book>();
 			int ratingInt = Integer.parseInt(rating);
-			recomendationsFriends = rec.getFriendsRecomendations(user_id,ratingInt, author,category);
+			recomendationsFriends = rec.getFriendsRecomendations(user_id,ratingInt, author,category);	
 			return Response.ok(recomendationsFriends).build();
 		}
 		catch(SQLException e) {

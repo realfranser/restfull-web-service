@@ -74,7 +74,8 @@ public class restRecursos {
 		 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.users ");
 		 rs = prepStmt.executeQuery();
 		 
-		 rs.next();
+			if(!rs.next())
+				return null;
 		 do {
 			 users.add(new jersey.booknet.database.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4)));
 		 }
@@ -97,7 +98,8 @@ public class restRecursos {
 		 prepStmt = conn.prepareStatement( "SELECT * FROM booknet.users WHERE user_name LIKE ?");
 		 prepStmt.setString(1, "%"+user_name+"%");
 		 rs = prepStmt.executeQuery();
-		 rs.next();
+			if(!rs.next())
+				return null;
 		 do {
 			 users.add(new jersey.booknet.database.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4)));
 		 }
@@ -114,7 +116,8 @@ public class restRecursos {
 			 prepStmt.setInt(1,id);
 			 rs = prepStmt.executeQuery();
 			 
-			 rs.next();
+				if(!rs.next())
+					return null;
 			 jersey.booknet.database.User user = new jersey.booknet.database.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4));
 			 return user;
 	}
@@ -180,11 +183,7 @@ public class restRecursos {
 				 readbook.setId(rs.getInt(1));
 				 readbook.setUserId(user_id);
 			 }
-			 return readbook;
-		 
-		 
-	
-			 
+			 return readbook; 
 		 }
 	
 	public boolean removeReadBook(int user_id , int isbn) {
@@ -192,8 +191,7 @@ public class restRecursos {
 		if(conn == null) {
 			 connect();
 		 }
-		 try {
-			 
+		 try { 
 			 prepStmt = conn.prepareStatement( "DELETE FROM booknet.read_books WHERE user_id=? AND isbn =?",Statement.EXECUTE_FAILED);
 			 prepStmt.setInt(1,user_id);
 			 prepStmt.setInt(2,isbn);
@@ -218,7 +216,8 @@ public class restRecursos {
 			 prepStmt.setInt(2,isbn);
 			 rs = prepStmt.executeQuery();
 			 
-			 rs.next();
+				if(!rs.next())
+					return null;
 			 ReadBook book = new ReadBook(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getInt(5));
 			 return book;
 	}
@@ -373,7 +372,8 @@ public class restRecursos {
 		prepStmt.setInt(4,from);
 		prepStmt.setInt(5,steps);
 		rs = prepStmt.executeQuery();
-		rs.next();
+		if(!rs.next())
+			return null;
 		 do {
 			 readBooks.add(new ReadBook(rs.getInt(1),rs.getInt(2),rs.getInt (3),rs.getInt(4),rs.getInt(5))); // yyyymmdd
 		 }
@@ -393,7 +393,8 @@ public class restRecursos {
 		prepStmt.setInt(3,from);
 		prepStmt.setInt(4,steps);
 		rs = prepStmt.executeQuery();
-		rs.next();
+		if(!rs.next())
+			return null;
 		 do {
 			 friends.add(new jersey.booknet.database.User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4))); // yyyymmdd
 		 }
@@ -414,7 +415,8 @@ public class restRecursos {
 		prepStmt.setInt(4,from);
 		prepStmt.setInt(5,steps);
 		rs = prepStmt.executeQuery();
-		rs.next();
+		if(!rs.next())
+			return null;
 		do {
 			 friendsReadings.add(new ReadBook(rs.getInt(1),rs.getInt(2),rs.getInt (3),rs.getInt(4),rs.getInt(5))); // yyyymmdd
 		 }
@@ -423,11 +425,10 @@ public class restRecursos {
 	}
 	
 	
-	public ArrayList<Book> getFriendsRecomendations(int user_id,int rating, String author,String category)throws SQLException{
-		
+	public ArrayList<Book> getFriendsRecomendations(int user_id,int rating, String author,String category)throws SQLException{	
 		if(conn == null) {
 			 connect();
-		 }
+		}
 		ArrayList <Book> friendsRecomendations = new ArrayList<Book>();
 		prepStmt = conn.prepareStatement( "SELECT * FROM `booknet`.`books` WHERE isbn IN(SELECT isbn FROM `booknet`.`read_books` WHERE user_id IN(SELECT friend_id FROM `booknet`.`friendship` WHERE user_id = ? AND `user_rating` BETWEEN ? AND ?)) AND `authors_name` LIKE ? AND `category` LIKE ?;",Statement.EXECUTE_FAILED);
 		prepStmt.setInt(1,user_id);
@@ -436,9 +437,10 @@ public class restRecursos {
 		prepStmt.setString(4,"%"+author+"%");
 		prepStmt.setString(5,"%"+category+"%");
 		rs = prepStmt.executeQuery();
-		rs.next();
+		if(!rs.next())
+			return null;
 		do {
-			 friendsRecomendations.add(new Book(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4))); // yyyymmdd
+			friendsRecomendations.add(new Book(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4))); // yyyymmdd
 		 }
 		 while(rs.next());
 		return friendsRecomendations;
