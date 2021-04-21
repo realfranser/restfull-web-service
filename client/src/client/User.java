@@ -1,4 +1,4 @@
-package jersey.booknet.database;
+package client;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
