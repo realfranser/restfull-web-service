@@ -98,11 +98,11 @@ Cada lectura cuenta con los siguientes atributos:
 | INT | INT | INT | INT | INT |
 
 > **Primary Key:**
-> read_id
+> read_id<br>
 > **Foreign Key:**
-> user_id
+> user_id<br>
 > **Foreign Key:**
-> isbn
+> isbn<br>
 
 ### Script para crear la base de datos "booknet"
 > **Nota:**
