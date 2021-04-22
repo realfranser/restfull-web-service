@@ -73,7 +73,7 @@ public class resources {
 			if(!aux) { // hay que cambiar esto yo creo , lo elimina pero no se que deberia devolver
 				return Response.status(Response.Status.PRECONDITION_FAILED).entity("NO SE PUDO ELIMINAR EL USUARIO").build();
 			}
-			return Response.status(Response.Status.NO_CONTENT).build();
+			return Response.status(Response.Status.OK).build();
 
 	}
 	
@@ -193,9 +193,9 @@ public class resources {
 			Friendship friendship = new Friendship();
 			friendship.setId_user1(user_id_int);
 			friendship.setId_user2(friend);
-			boolean state = rec.removeFriendship(friendship);
-			String location = uri.getAbsolutePath() + "/" +state;
-			return Response.status(Response.Status.CREATED).entity(state).header("Location", location.toString()).build();
+			rec.removeFriendship(friendship);
+			return Response.status(Response.Status.OK).build();
+			
 		}
 		catch (Exception e) {
 			// TODO: handle exception
