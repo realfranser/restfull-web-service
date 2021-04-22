@@ -18,7 +18,7 @@ como amigos y poder ver la actividad reciente de los mismos.
 | Proyecto    | Practica 1 - RESTFull API
 
 ## Autores
-- Jesus Vallejo Collados [Matricula]
+- Jesus Vallejo Collados [150319]
 - Francisco Javier Serrano Arrese [180487]
 
 ## Indice
@@ -35,8 +35,8 @@ Informacion de la base de datos en REST-VM:
 
 - URI: `uri.booknet.com:3306`
 - Nombre: `booknet`
-- Usuario: `restuser`
-- Contrasena: `restuser`
+- Usuario: `booknet`
+- Contrasena: `booknet`
 
 Tablas que conforman la base de datos:
 
