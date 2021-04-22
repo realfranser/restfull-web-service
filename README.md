@@ -6,9 +6,11 @@ Este proyecto consiste en el desarrollo de un API de tipo REST para una red soci
 esta red social es un punto de encuentro entre diferentes lectores, los cuales pueden compartir
 los libros que han leido junto con una pequena resena, a su vez los usuarior pueden agregarse entre si
 como amigos y poder ver la actividad reciente de los mismos.
+<br><br><br><br>
 
 ## Informacion
-| Infomacion: |  |   
+
+| Informacion del proyecto: |  |   
 | ----------- | --------
 | Titulación  | Grado de Ingeniería Informática. Plan 09.
 | Curso         | 2020/21
@@ -16,16 +18,30 @@ como amigos y poder ver la actividad reciente de los mismos.
 | Curso		 | 3º Curso
 | Semestre    | 6º Semestre (Tarde)
 | Proyecto    | Practica 1 - RESTFull API
+<br><br>
 
 ## Autores
 - Jesus Vallejo Collados [Matricula]
 - Francisco Javier Serrano Arrese [180487]
+<br><br>
 
 ## Indice
+- [BOOKNET - RESTFULL API](#booknet---restfull-api)
+  * [Informacion](#informacion)
+  * [Autores](#autores)
+  * [Indice](#indice)
+  * [Base de datos](#base-de-datos)
+    + [Aspectos generales](#aspectos-generales)
+    + [Esquema E/R](#esquema-e/r)
+    + [Tabla USERS](#tabla-users)
+    + [Tabla FRIENDSHIPS](#tabla-friendships)
+    + [Tabla BOOKS](#tabla-books)
+    + [Tabla READ_BOOKS](#tabla-read_books)
+    + [Script para crear la base de datos booknet](#script-para-crear-la-base-de-datos-booknet)
+  * [Diseno de las URIs](#diseno-de-las-uris)
+    + [Users](#users)
+<br><br><br><br>
 
-- [Introduccion](#informacion)
-- [Base de Datos](#base-de-datos)
-- [Subelemento](#subelemento)
 
 ## Base de datos
 
@@ -44,11 +60,15 @@ Tablas que conforman la base de datos:
 - **FRIENDSHIPS** (Tabla con las amistades entre usuarios)
 - **BOOKS** (Tabla con la informacion de los libros)
 - **READ_BOOKS** (Tabla con la informacion de las lecturas de los libros)
+<br>
+<br>
 
 ### Esquema E/R
 Esquema de Entidad Relacion empleado en el diseno de la base de datos booknet:
 
-![Entidad / Relacion](href img)
+![Entidad / Relacion](./EntidadRelacion.jpg)
+<br>
+<br>
 
 ### Tabla USERS
 Tabla con la informacion de los usuarios de booknet.
@@ -61,6 +81,8 @@ Cada usuario cuenta con los siguientes atributos:
 
 > **Primary Key:**
 > user_id
+
+<br>
 
 ### Tabla FRIENDSHIPS
 Tabla con la informacion de las amistades entre los usuarios
@@ -75,7 +97,9 @@ Cada amistad cuenta con los siguientes atributos:
 > **Foreign Key:**
 > user_id<br>
 > **Foreign Key:**
-> friend_id<br>
+> friend_id
+
+<br>
 
 ### Tabla BOOKS
 Tabla con la informacion de los libros de la red booknet.
@@ -87,6 +111,8 @@ Cada libro cuenta con los siguientes atributos:
 | INT | VARCHAR | VARCHAR | VARCHAR |
 > **Primary Key:**
 > isbn
+
+<br>
 
 ### Tabla READ_BOOKS
 Tabla con la informacion de una lectura de un libro realizada por un usuario
@@ -102,9 +128,11 @@ Cada lectura cuenta con los siguientes atributos:
 > **Foreign Key:**
 > user_id<br>
 > **Foreign Key:**
-> isbn<br>
+> isbn
 
-### Script para crear la base de datos "booknet"
+<br><br>
+
+### Script para crear la base de datos booknet
 > **Nota:**
 > Este script es capaz de funcionar a pesar de que la base de datos haya sido creada anteriormente.
 
@@ -256,18 +284,18 @@ UNLOCK TABLES;
 
 -- Dump completed on 2021-04-21 16:01:09
 
-
 ```
+
+<br><br>
 
 ## Diseno de las URIs
 
 > **Nota:**
 > El simbolo '~' representa en nuestro caso: http://localhost8080/booknet/api
 
-### Users
+<br>
 
-
-
+### **Users**
 
 #### <span style="color: green;">[POST] ~/users</span>
 | URI        		| http://localhost:8080/booknet/api/v1/users/ | 
@@ -277,7 +305,7 @@ UNLOCK TABLES;
 | Cadena de consulta| Ninguna                      |
 | Cuerpo 			| POX (users/user+json)	|  
 | Devuelve      	| <ul><li>``201`` : Created y cabecera Location</li><li>``406`` : Not Acceptable</li><li>``415`` : Unsupported Media Type</li></ul>|  
-| |
+<br>
 
 #### <span style="color: blue;">[GET] ~/users/{user_id}</span>
 | URI        		| http://localhost:8080/booknet/api/v1/users/{user_id} |
@@ -287,6 +315,7 @@ UNLOCK TABLES;
 | Cadena de consulta| <ul><li>filter\_by\_id= búsqueda por user_id</li></ul>
 | Cuerpo 			| Ninguno		|  
 | Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+json)</li><li>``404`` : Not Found</li></ul>|
+<br>
 
 #### <span style="color: orange;">[PUT] ~/users/{user_id}</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id} 									| 
@@ -296,6 +325,7 @@ UNLOCK TABLES;
 | Cadena de consulta| Ninguna                      |
 | Cuerpo 			| POX (users/user+json)	|  
 | Devuelve      	| <ul><li>``200`` : OK</li><li>``201`` : Created y cabecera Location *(1)</li><li>``406`` : Not Acceptable</li><li>``415`` : Unsupported Media Type</li></ul>|
+<br>
 
 #### <span style="color: red;">[DELETE] ~/users/{user_id}</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id} | 
@@ -305,6 +335,7 @@ UNLOCK TABLES;
 | Cadena de consulta| Ninguna                      |
 | Cuerpo 			| Ninguno|  
 | Devuelve      	| <ul><li>``200`` : OK</li><li>``404`` : Not Found</li><li>``503`` : Service Unavailable</li></ul>|  
+<br>
 
 #### <span style="color: blue;">[GET] ~/users</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/ |
@@ -314,6 +345,7 @@ UNLOCK TABLES;
 | Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por nombre</li></ul>
 | Cuerpo 			| Ninguno		|  
 | Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+xml)</li><li>``404`` : Not Found</li></ul>|
+<br>
 
 #### <span style="color: green;">[POST] ~/users/{user_id}</span>
 | URI        		| http://localhost:8080/booknet/api/v1/users/{user_id} | 
@@ -323,6 +355,10 @@ UNLOCK TABLES;
 | Cadena de consulta| Ninguna                      |
 | Cuerpo 			| POX (users/user+json)	|  
 | Devuelve      	| <ul><li>``201`` : Created y cabecera Location</li><li>``406`` : Not Acceptable</li><li>``415`` : Unsupported Media Type</li></ul>|  
+<br>
+
+### **READ BOOKS**
+<br>
 
 #### <span style="color: red;">[DELETE] ~/users/{user_id}/read_books/{isbn}</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/read_books/{isbn} | 
@@ -332,8 +368,9 @@ UNLOCK TABLES;
 | Cadena de consulta| Ninguna                      |
 | Cuerpo 			| Ninguno|  
 | Devuelve      	| <ul><li>``200`` : OK</li><li>``404`` : Not Found</li><li>``503`` : Service Unavailable</li></ul>|  
+<br>
 
-### **[PUT]** ~/users/{user_id}/read_books/{isbn}</span>
+#### <span style="color: orange;">[PUT] ~/users/{user_id}/read_books/{isbn}</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/read_books/{isbn}							| 
 | ------------- 	|-------------			|
 | Descripción       | Modifica los atributos de la lectura de un libro |
@@ -341,6 +378,7 @@ UNLOCK TABLES;
 | Cadena de consulta| Ninguna                      |
 | Cuerpo 			| POX (users/user+json)	|  
 | Devuelve      	| <ul><li>``200`` : OK</li><li>``201`` : Created y cabecera Location *(1)</li><li>``406`` : Not Acceptable</li><li>``415`` : Unsupported Media Type</li></ul>|
+<br>
 
 #### <span style="color: blue;">[GET] ~/users/{user_id}/readings</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/readings |
@@ -350,6 +388,10 @@ UNLOCK TABLES;
 | Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por fecha</li></ul>
 | Cuerpo 			| Ninguno		|  
 | Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+json)</li><li>``404`` : Not Found</li></ul>|
+<br>
+
+### **FRIENDS**
+<br>
 
 #### <span style="color: green;">[POST] ~/users/{user_id}/friends/</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{username}/friends/  |
@@ -359,6 +401,7 @@ UNLOCK TABLES;
 | Cadena de consulta| Ninguna                    |
 | Cuerpo 			| Ninguno	|  
 | Devuelve      	| <ul><li>``201`` : Created y cabecera Location</li><li>``302`` : Found</li><li>``404`` : Not Found</li></ul>|
+<br>
 
 #### <span style="color: red;">[DELETE] ~/users/{user_id}/friends/</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/friends    | 
@@ -368,6 +411,7 @@ UNLOCK TABLES;
 | Cadena de consulta| Ninguna                      |
 | Cuerpo 			| Ninguno|  
 | Devuelve      	| <ul><li>``200`` : OK</li><li>``404`` : Not Found</li><li>``503`` : Service Unavailable</li></ul>|  
+<br>
 
 #### <span style="color: blue;">[GET] ~/users/{user_id}/friends</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/friends |
@@ -377,6 +421,7 @@ UNLOCK TABLES;
 | Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por nombre</li></ul>
 | Cuerpo 			| Ninguno		|  
 | Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+json)</li><li>``404`` : Not Found</li></ul>|
+<br>
 
 #### <span style="color: blue;">[GET] ~/users/{user_id}/friendsreadings</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/friendsreadings |
@@ -386,6 +431,7 @@ UNLOCK TABLES;
 | Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por fecha</li></ul>
 | Cuerpo 			| Ninguno		|  
 | Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+json)</li><li>``404`` : Not Found</li></ul>|
+<br>
 
 #### <span style="color: blue;">[GET] ~/users/{user_id}/friendsrecomendations</span>
 | URI        		| http://localhost:8080/UPMSocial/api/v1/users/{user_id}/friendsrecomendations |
@@ -395,3 +441,67 @@ UNLOCK TABLES;
 | Cadena de consulta| <ul><li>filter\_by\_text= búsqueda por nombre</li></ul>
 | Cuerpo 			| Ninguno		|  
 | Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+xml)</li><li>``404`` : Not Found</li></ul>|
+<br><br>
+
+## Testing de la API
+Para realizar el testing de la API RESTfull desde un cliente, se utilizo la herramienta [Postman](https://www.postman.com). Para ello, identificabamos nuestra URI base como http://localhost:8080/booknet/api/ y seleccionabamos el tipo de llamada que queriamos testear (PUT, POST, DELETE o GET) en nuestro caso. Seleccionando los parametros de entrada requeridos para cada llamada y con el correcto tratamiento en caso de no recibir alguno de estos parametros. Tras completar con exito el desarrollo de la API se procedio al desarrollo de un cliente java detallado mas adelante.
+<br>
+
+### Pruebas Postman
+
+#### USERS
+
+##### <span style="color: green;">[POST] ~/users</span>
+Permite crear un usuario enviando una estructura de tipo User.
+![POST /users](./memoria/capturasMemoria/anadir_user.png)
+##### <span style="color: blue;">[GET] ~/users/{user_id}</span>
+Devuelve la informacion del usuario con el user_id especificado.
+![POST /users](./memoria/capturasMemoria/VERUSERFINFO2.png)
+##### <span style="color: orange;">[PUT] ~/users/{user_id}</span>
+Modifica los atributos de un usuario.
+![POST /users](./memoria/capturasMemoria/cambiardatosuser3.png)
+##### <span style="color: red;">[DELETE] ~/users/{user_id}</span>
+Elimina a un usuario de la red.
+![POST /users](./memoria/capturasMemoria/eliminaruser4.png)
+##### <span style="color: blue;">[GET] ~/users</span>
+Devuelve los usuarios de la red que contenga en su nombre el parametro user_name.
+![POST /users](./memoria/capturasMemoria/listadoamigos5.png)
+<br>
+
+#### READ BOOKS
+
+##### <span style="color: green;">[POST] ~/users/{user_id}</span>
+Anade un libro leido por un usuario a la red.
+![POST /users](./memoria/capturasMemoria/anadir_lectura6.png)
+##### <span style="color: red;">[DELETE] ~/users/{user_id}/read_books/{isbn}</span>
+Elimina la lectura de un libro por parte de un usuario.
+![POST /users](./memoria/capturasMemoria/eliminarlectura7.png)
+##### <span style="color: orange;">[PUT] ~/users/{user_id}/read_books/{isbn}</span>
+Modifica los atributos de la lectura de un libro.
+![POST /users](./memoria/capturasMemoria/Editarlibro8.png)
+##### <span style="color: blue;">[GET] ~/users/{user_id}/readings</span>
+Devuelve los ultimos libros leidos por un usuario en funcion de una fecha y respetando los criterios de paginacion.
+![POST /users](./memoria/capturasMemoria/consultalibrosuser9.png)
+<br>
+
+#### FRIENDS
+
+##### <span style="color: green;">[POST] ~/users/{user_id}/friends/</span>
+Crea una amistad de un usuario con otro.
+![POST /users](./memoria/capturasMemoria/anadir_amigo10.png)
+##### <span style="color: red;">[DELETE] ~/users/{user_id}/friends/</span>
+Elimina la amistad de un usuario con otro.
+![POST /users](./memoria/capturasMemoria/eliminarAmigo11.png)
+##### <span style="color: blue;">[GET] ~/users/{user_id}/friends</span>
+Devuelve los amigos de un usuario en funcion de un parametro nombre.
+![POST /users](./memoria/capturasMemoria/listaamigos12.png)
+##### <span style="color: blue;">[GET] ~/users/{user_id}/friendsreadings</span>
+Devuelve las lecturas de libros de los amigos de un usuario en funcion de la fecha de lectura.
+![POST /users](./memoria/capturasMemoria/librosamigos13.png)
+##### <span style="color: blue;">[GET] ~/users/{user_id}/friendsrecomendations</span>
+Devuelve las recomendaciones de libros por parte de los amigos de un usuario en funcion de la fecha de lectura, el rating y el nombre del autor.
+![POST /users](./memoria/capturasMemoria/librosrecomendados14.png)
+
+<br><br>
+
+### Pruebas Cliente JAVA
