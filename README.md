@@ -4,8 +4,11 @@ Este proyecto constituye la primera practica grupal de la asignatura Sistemas Or
 de la facultad ETSIINF de la Universidad Politecnica de Madrid.
 Este proyecto consiste en el desarrollo de un API de tipo REST para una red social llamada booknet,
 esta red social es un punto de encuentro entre diferentes lectores, los cuales pueden compartir
-los libros que han leido junto con una pequena resena, a su vez los usuarior pueden agregarse entre si
+los libros que han leido junto con una pequena resena, a su vez los usuarios pueden agregarse entre si
 como amigos y poder ver la actividad reciente de los mismos.
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
 <br><br><br><br>
 
 ## Informacion
@@ -21,8 +24,9 @@ como amigos y poder ver la actividad reciente de los mismos.
 <br><br>
 
 ## Autores
-- Jesus Vallejo Collados [Matricula]
+- Jesus Vallejo Collados [150319]
 - Francisco Javier Serrano Arrese [180487]
+<br><br>
 <br><br>
 
 ## Indice
@@ -32,15 +36,29 @@ como amigos y poder ver la actividad reciente de los mismos.
   * [Indice](#indice)
   * [Base de datos](#base-de-datos)
     + [Aspectos generales](#aspectos-generales)
-    + [Esquema E/R](#esquema-e/r)
+    + [Esquema E/R](#esquema-e-r)
     + [Tabla USERS](#tabla-users)
     + [Tabla FRIENDSHIPS](#tabla-friendships)
     + [Tabla BOOKS](#tabla-books)
-    + [Tabla READ_BOOKS](#tabla-read_books)
+    + [Tabla READ BOOKS](#tabla-read-books)
     + [Script para crear la base de datos booknet](#script-para-crear-la-base-de-datos-booknet)
   * [Diseno de las URIs](#diseno-de-las-uris)
-    + [Users](#users)
+    + [USERS](#users)
+    + [READ BOOKS](#read-books)
+    + [FRIENDS](#friends)
+  * [Testing de la API](#testing-de-la-api)
+    + [Pruebas Postman](#pruebas-postman)
+      - [USERS](#users-postman)
+      - [READ BOOKS](#read-books-postman)
+      - [FRIENDS](#friends-postman)
+    + [Pruebas Cliente JAVA](#pruebas-cliente-java)
+      - [USERS](#users-java)
+      - [READ BOOKS](#read-books-java)
+      - [FRIENDS](#friends-java)
 <br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br><br><br><br>
 
 
 ## Base de datos
@@ -63,12 +81,14 @@ Tablas que conforman la base de datos:
 <br>
 <br>
 
-### Esquema E/R
+### Esquema E-R
 Esquema de Entidad Relacion empleado en el diseno de la base de datos booknet:
+<br><br>
 
-![Entidad / Relacion](./EntidadRelacion.jpg)
-<br>
-<br>
+<p align="center" width="1500">
+  <img width="1500" height="450" src="./memoria/my_ent_rel.svg">
+</p>
+<br><br>
 
 ### Tabla USERS
 Tabla con la informacion de los usuarios de booknet.
@@ -112,9 +132,9 @@ Cada libro cuenta con los siguientes atributos:
 > **Primary Key:**
 > isbn
 
-<br>
+<br><br><br><br><br><br><br>
 
-### Tabla READ_BOOKS
+### Tabla READ BOOKS
 Tabla con la informacion de una lectura de un libro realizada por un usuario
 
 Cada lectura cuenta con los siguientes atributos:
@@ -286,7 +306,10 @@ UNLOCK TABLES;
 
 ```
 
-<br><br>
+<br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br>
+<br><br><br><br><br><br>
 
 ## Diseno de las URIs
 
@@ -295,7 +318,7 @@ UNLOCK TABLES;
 
 <br>
 
-### **Users**
+### Users
 
 #### <span style="color: green;">[POST] ~/users</span>
 | URI        		| http://localhost:8080/booknet/api/v1/users/ | 
@@ -357,7 +380,7 @@ UNLOCK TABLES;
 | Devuelve      	| <ul><li>``201`` : Created y cabecera Location</li><li>``406`` : Not Acceptable</li><li>``415`` : Unsupported Media Type</li></ul>|  
 <br>
 
-### **READ BOOKS**
+### READ BOOKS
 <br>
 
 #### <span style="color: red;">[DELETE] ~/users/{user_id}/read_books/{isbn}</span>
@@ -390,7 +413,7 @@ UNLOCK TABLES;
 | Devuelve      	| <ul><li>``200`` : OK y POX (usuarios/usuario+json)</li><li>``404`` : Not Found</li></ul>|
 <br>
 
-### **FRIENDS**
+### FRIENDS
 <br>
 
 #### <span style="color: green;">[POST] ~/users/{user_id}/friends/</span>
@@ -449,59 +472,59 @@ Para realizar el testing de la API RESTfull desde un cliente, se utilizo la herr
 
 ### Pruebas Postman
 
-#### USERS
+#### USERS POSTMAN
 
-##### <span style="color: green;">[POST] ~/users</span>
+##### <span style="color: green; font-size: 1.5em;">[POST] ~/users</span>
 Permite crear un usuario enviando una estructura de tipo User.
 ![POST /users](./memoria/Capturas/newUser.1.png)
-##### <span style="color: blue;">[GET] ~/users/{user_id}</span>
+##### <span style="color: blue;font-size: 1.5em;">[GET] ~/users/{user_id}</span>
 Devuelve la informacion del usuario con el user_id especificado.
 ![POST /users](./memoria/Capturas/verUser.2.png)
-##### <span style="color: orange;">[PUT] ~/users/{user_id}</span>
+##### <span style="color: orange;font-size: 1.5em;">[PUT] ~/users/{user_id}</span>
 Modifica los atributos de un usuario.
 ![POST /users](./memoria/Capturas/cambiarUser.3.png)
-##### <span style="color: red;">[DELETE] ~/users/{user_id}</span>
+##### <span style="color: red;font-size: 1.5em;">[DELETE] ~/users/{user_id}</span>
 Elimina a un usuario de la red.
 ![POST /users](./memoria/Capturas/eliminarUser.4.png)
-##### <span style="color: blue;">[GET] ~/users</span>
+##### <span style="color: blue;font-size: 1.5em;">[GET] ~/users</span>
 Devuelve los usuarios de la red que contenga en su nombre el parametro user_name.
 ![POST /users](./memoria/Capturas/listaUsers.5.png)
 <br>
 
-#### READ BOOKS
+#### READ BOOKS POSTMAN
 
-##### <span style="color: green;">[POST] ~/users/{user_id}</span>
+##### <span style="color: green;font-size: 1.5em;">[POST] ~/users/{user_id}</span>
 Anade un libro leido por un usuario a la red.
 ![POST /users](./memoria/Capturas/addLectura.6.png)
-##### <span style="color: red;">[DELETE] ~/users/{user_id}/read_books/{isbn}</span>
+##### <span style="color: red;font-size: 1.5em;">[DELETE] ~/users/{user_id}/read_books/{isbn}</span>
 Elimina la lectura de un libro por parte de un usuario.
 ![POST /users](./memoria/Capturas/eliminarLectura.7.png)
-##### <span style="color: orange;">[PUT] ~/users/{user_id}/read_books/{isbn}</span>
+##### <span style="color: orange;font-size: 1.5em;">[PUT] ~/users/{user_id}/read_books/{isbn}</span>
 Modifica los atributos de la lectura de un libro.
 ![POST /users](./memoria/Capturas/editLibro.8.png)
-##### <span style="color: blue;">[GET] ~/users/{user_id}/readings</span>
+##### <span style="color: blue;font-size: 1.5em;">[GET] ~/users/{user_id}/readings</span>
 Devuelve los ultimos libros leidos por un usuario en funcion de una fecha y respetando los criterios de paginacion.
 ![POST /users](./memoria/Capturas/consultaLibros.9.png)
 <br>
 
-#### FRIENDS
+#### FRIENDS POSTMAN
 
-##### <span style="color: green;">[POST] ~/users/{user_id}/friends/</span>
+##### <span style="color: green;font-size: 1.5em;">[POST] ~/users/{user_id}/friends/</span>
 Crea una amistad de un usuario con otro.
 ![POST /users](./memoria/Capturas/addAmigo.10.png)
-##### <span style="color: red;">[DELETE] ~/users/{user_id}/friends/</span>
+##### <span style="color: red;font-size: 1.5em;">[DELETE] ~/users/{user_id}/friends/</span>
 Elimina la amistad de un usuario con otro.
 ![POST /users](./memoria/Capturas/eliminarAmigo.11.png)
-##### <span style="color: blue;">[GET] ~/users/{user_id}/friends</span>
+##### <span style="color: blue;font-size: 1.5em;">[GET] ~/users/{user_id}/friends</span>
 Devuelve los amigos de un usuario en funcion de un parametro nombre.
 ![POST /users](./memoria/Capturas/listaAmigos.12.png)
-##### <span style="color: blue;">[GET] ~/users/{user_id}/friendsreadings</span>
+##### <span style="color: blue;font-size: 1.5em;">[GET] ~/users/{user_id}/friendsreadings</span>
 Devuelve las lecturas de libros de los amigos de un usuario en funcion de la fecha de lectura.
 ![POST /users](./memoria/Capturas/librosAmigos.13.png)
-##### <span style="color: blue;">[GET] ~/users/{user_id}/friendsrecomendations</span>
+##### <span style="color: blue;font-size: 1.5em;">[GET] ~/users/{user_id}/friendsrecomendations</span>
 Devuelve las recomendaciones de libros por parte de los amigos de un usuario en funcion de la fecha de lectura, el rating y el nombre del autor.
 ![POST /users](./memoria/Capturas/librosRecomendados.14.png)
-##### <span style="color: blue;">[GET] ~users/{user_id}
+##### <span style="color: blue;font-size: 1.5em;">[GET] ~users/{user_id}</span>
 Devuelve la informacion completa de un usuario, incluidos los ultimos libros leidos por sus amigos, numero de estos y el ultimo libro leido por el usuario en cuestion.
 ![POST /users](./memoria/Capturas/appdata15.png)
 
@@ -509,9 +532,9 @@ Devuelve la informacion completa de un usuario, incluidos los ultimos libros lei
 
 ### Pruebas Cliente JAVA
 
-#### USERS
+#### USERS JAVA
 
-##### Crear un usuario
+##### <span style="font-size: 1.25em;">Crear un usuario</span>
 ``` JAVA
 User u = new client.User();
 u.setNick("pepe");
@@ -523,20 +546,18 @@ System.out.println("Location: " + r.getHeaders().get("Location").get(0).toString
 ```
 CREAR USER:201
 Location: http://localhost:8080/booknet/api/users/1
-<br>
+<br><br>
 
-##### Ver datos de un usuario
-
+##### <span style="font-size: 1.25em;">Ver datos de un usuario</span>
 ``` JAVA
 System.out.println("DATOS DE UN USER:"+target.path("api").path("users/1").request()
 	            .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 DATOS DE UN USER:
 {"edad":19,"email":"pepito@mail.com","friendsNumber":0,"id":1,"nick":"pepe"}
-<br>
+<br><br>
 
-#####  Actualizar datos de un usuario
-
+##### <span style="font-size: 1.25em;">Actualizar datos de un usuario</span>
 ``` JAVA
 User u2 = new client.User();
   u2.setEdad(25);
@@ -545,37 +566,37 @@ User u2 = new client.User();
       .accept(MediaType.APPLICATION_JSON).put(Entity.json(u2),Response.class).getStatus());
 ```
 ACTUALIZAR DATOS DE UN USER:200
-<br>
+<br><br>
 
-##### Borrar usuario
+##### <span style="font-size: 1.25em;">Borrar usuario</span>
 ``` JAVA
 r = target.path("api").path("users/4").request().delete();
 System.out.println("BORRAR DATOS DE UN USER:"+r.getStatus());
 ```
 BORRAR DATOS DE UN USER:200
-<br>
+<br><br>
 
-##### Obtener usuarios en la red
+##### <span style="font-size: 1.25em;">Obtener usuarios en la red</span>
 ``` JAVA
 System.out.println("LISTADO USUARIOS:"+target.path("api").path("users/").request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO USUARIOS:
 [{"edad":19,"email":"pepito@mail.com","friendsNumber":0,"id":1,"nick":"pepe"},{"edad":20,"email":"mail2@mail.com","friendsNumber":0,"id":2,"nick":"user2"}]
-<br>
+<br><br>
 
-##### Obtener usuarios por nombre
+##### <span style="font-size: 1.25em;">Obtener usuarios por nombre</span>
 ``` JAVA
 System.out.println("LISTADO USERS POR NOMBRE:"+target.path("api").path("users/").queryParam("user_name", "user").request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO USERS POR NOMBRE:
 [{"edad":20,"email":"mail2@mail.com","friendsNumber":0,"id":2,"nick":"user2"}]
-<br>
+<br><br>
 
-#### READ BOOKS
+#### READ BOOKS JAVA
 
-##### Add lectura por parte de un usuario con calificacion
+##### <span style="font-size: 1.25em;">Add lectura por parte de un usuario con calificacion</span>
 ``` JAVA
 ReadBook readBook = new ReadBook();
 readBook.setIsbn(3);
@@ -587,17 +608,17 @@ System.out.println("Location: " + r1.getHeaders().get("Location").get(0).toStrin
 ```
 CREAR LECTURA:201
 Location: http://localhost:8080/booknet/api/users/read_books/1
-<br>
+<br><br>
 
-##### Eliminar la lectura de un libro por parte de un usuario 
+##### <span style="font-size: 1.25em;">Eliminar lectura de un libro por parte de un usuario</span>
 ``` JAVA
 r = target.path("api").path("users/3/3").request().delete();
 	    System.out.println("BORRAR LECTURA DE USUSARIO:"+r.getStatus());
 ```
 BORRAR LECTURA DE USUARIO:200
-<br>
+<br><br>
 
-##### Editar la lectura de un libro por parte de un usuario
+##### <span style="font-size: 1.25em;">Editar lectura de un libro por parte de un usuario</span>
 ``` JAVA
 ReadBook readBook2 = new ReadBook();
 readBook2.setRating(8);
@@ -606,27 +627,27 @@ System.out.println("ACTUALIZAR DATOS DE UNA LECTURA:"+target.path("api").path("u
     .accept(MediaType.APPLICATION_JSON).put(Entity.json(readBook2),Response.class).getStatus());
 ```
 ACTUALIZAR DATOS DE UNA LECTURA:200
-<br>
+<br><br>
 
-##### Consultar los libros leidos
+##### <span style="font-size: 1.25em;">Consultar los libros leidos</span>
 ``` JAVA
 System.out.println("LISTADO LIBROS:"+target.path("api").path("users/1/readings").request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO LIBROS:
 [{"id":4,"isbn":1,"rating":6,"readDate":20010806,"userId":2},{"id":5,"isbn":2,"rating":2,"readDate":20051203,"userId":2}]
-<br>
+<br><br>
 
-##### Consultar libros antes de cierta fecha
+##### <span style="font-size: 1.25em;">Consultar los libros leidos antes de cierta fecha</span>
 ``` JAVA
 System.out.println("LISTADO LIBROS LIMITE FECHA:"+target.path("api").path("users/1/readings").queryParam("date",20210101).request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO LIBROS LIMITE FECHA:
 [{"id":4,"isbn":1,"rating":6,"readDate":20010806,"userId":2}]
-<br>
+<br><br>
 
-##### Consultar libros antes de cierte fecha y con paginacion especifica
+##### <span style="font-size: 1.25em;">Consultar los libros leidos antes de cierta fecha y con paginacion especifica</span>
 ``` JAVA
 System.out.println("LISTADO LIBROS LIMITE FECHA Y CANTIDAD:"+target.path("api").path("users/1/readings").queryParam("date",20210101).queryParam("from",1).queryParam("to",2).request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
@@ -636,11 +657,11 @@ System.out.println("LISTADO LIBROS LIMITE FECHA Y CANTIDAD:"+target.path("api").
 
 LISTADO LIBROS LIMITE FECHA Y CANTIDAD:
 [{"id":4,"isbn":1,"rating":6,"readDate":20010806,"userId":2}]
-<br>
+<br><br>
 
-#### FRIENDS
+#### FRIENDS JAVA
 
-##### Add amigo
+##### <span style="font-size: 1.25em;">Add amigo</span>
 ``` JAVA
 Friendship f = new client.Friendship();
 f.setId_user2(2);
@@ -650,26 +671,26 @@ System.out.println("Location: " + r.getHeaders().get("Location").get(0).toString
 ```
 ANADIR AMIGO:2001
 Location: http://localhost:8080/booknet/api/users/3/friends/12
-<br>
+<br><br>
 
-##### Borrar amistad
+##### <span style="font-size: 1.25em;">Borrar amistad</span>
 ``` JAVA
 r = target.path("api").path("users/3/friends").queryParam("friend",1).request().accept(MediaType.APPLICATION_JSON).delete();
 System.out.println("BORRAR DATOS DE UN USER:"+r.getStatus());
 ```
 BORRAR DATOS DE UN USER:200
-<br>
+<br><br>
 
-##### Consultar amigos
+##### <span style="font-size: 1.25em;">Consultar amigos</span>
 ``` JAVA
 System.out.println("LISTADO AMIGOS:"+target.path("api").path("users/1/friends").request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO AMIGOS:
 [{"edad":34,"email":"pepito@mail.com","friendsNumber":0,"id":1,"nick":"user1"}]
-<br>
+<br><br>
 
-##### Consultar amigos con cierto patron de nombre
+##### <span style="font-size: 1.25em;">Consultar amigos con cierto patron de nombre</span>
 ``` JAVA
 System.out.println("LISTADO AMIGOS LIMITE NOMBRE:"+target.path("api").path("users/1/friends").queryParam("friend_name","user2").request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
@@ -678,75 +699,76 @@ System.out.println("LISTADO AMIGOS LIMITE NOMBRE:"+target.path("api").path("user
 > Su unico amigo tiene nombre user1 y al introducir el filtro friend_name = user2, no encuentra ningun amigo que satisface la condicion
 LISTADO DE AMIGOS LIMITE NOMBRE:
 []
-<br>
+<br><br>
 
-##### Consultar amigos con cierto patron de nombre y paginacion especifica
+##### <span style="font-size: 1.25em;">Consultar amigos con cierto patron de nombre y paginacion especifica</span>
 ``` JAVA
 System.out.println("LISTADO AMIGOS LIMITE NOMBRE Y CANTIDAD:"+target.path("api").path("users/1/friends").queryParam("friend_name","user").queryParam("from",1).queryParam("to",2).request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO AMIGOS LIMITE NOMBRE Y CANTIDAD:
 [{"edad":34,"email":"pepito@mail.com","friendsNumber":0,"id":1,"nick":"user1"}]
-<br>
+<br><br>
 
-##### Consulta libros leidos por amigos
+##### <span style="font-size: 1.25em;">Consultar libros leidos por amigos</span>
 ``` JAVA
 System.out.println("LISTADO LIBROS AMIGOS:"+target.path("api").path("users/1/friendsreadings").request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO LIBROS AMIGOS:
 [{"id":7,"isbn":5,"rating":4,"readDate":19880407,"userId":3}]
-<br>
+<br><br>
 
-##### Consulta libros leidos por amigos previos a una fecha
+##### <span style="font-size: 1.25em;">Consultar libros leidos por amigos previos a una fecha</span>
 ``` JAVA
 System.out.println("LISTADO LIBROS AMIGOS LIMITE FECHA:"+target.path("api").path("users/1/friendsreadings").queryParam("date",20201202).request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO LIBROS AMIGOS LIMITE FECHA:
 [{"id":7,"isbn":5,"rating":4,"readDate":19880407,"userId":3}]
-<br>
+<br><br>
 
-##### Consulta libros leidos por amigos previos a una fecha y paginacion especifica
+##### <span style="font-size: 1.25em;">Consultar libros leidos por amigos previos a una fecha y con paginacion especifica</span>
 ``` JAVA
 System.out.println("LISTADO LIBROS AMIGOS LIMITE FECHA Y CANTIDAD:"+target.path("api").path("users/1/friendsreadings").queryParam("date",20200102).queryParam("from",1).queryParam("to",2).request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO LIBROS AMIGOS LIMITE FECHA Y CANTIDAD:
 [{"id":7,"isbn":5,"rating":4,"readDate":19880407,"userId":3}]
-<br>
+<br><br>
 
-##### Consulta libros recomendados
+##### <span style="font-size: 1.25em;">Consultar libros leidos recomendados</span>
 ``` JAVA
 System.out.println("LISTADO LIBROS RATING:"+target.path("api").path("users/1/friendsrecomendations").queryParam("rating",4).request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO LIBROS RATING:
 [{"authName":"autor1","category":"categoria1","isbn":1,"name":"libro1"}]
-<br>
+<br><br>
 
-##### Consulta libros recomendados por amigos filtrando por rating y autor
+##### <span style="font-size: 1.25em;">Consultar libros leidos recomendados filtrados por rating y autor</span>
 ``` JAVA
 System.out.println("LISTADO LIBROS RATING LIMITE AUTOR:"+target.path("api").path("users/1/friendsrecomendations").queryParam("rating",2).queryParam("author","autor2").request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO LIBROS RATING LIMITE AUTOR:
 [{"id":7,"isbn":5,"rating":4,"readDate":19880407,"userId":3}]
-<br>
+<br><br>
 
-##### Consulta libros recomendados filtrando autores y categoria
+##### <span style="font-size: 1.25em;">Consultar libros leidos recomendados filtrados por categoria y autor</span>
 ``` JAVA
 System.out.println("LISTADO LIBROS AMIGOS LIMITE AUTOR Y CATEGORIA:"+target.path("api").path("users/1/friendsrecomendations").queryParam("rating",4).queryParam("author","autor").queryParam("category","categoria1").request()
 .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO LIBROS AMIGOS LIMITE AUTOR Y CATEGORIA:
 [{"id":7,"isbn":5,"rating":4,"readDate":19880407,"userId":3}]
-<br>
+<br><br>
 
-##### Consulta datos completos de un usuario por la aplicacion movil
+##### <span style="font-size: 1.25em;">Consultar datos completod de un usuario por la aplicacion movil</span>
 ``` JAVA
 System.out.println("LISTADO APPDATA:"+target.path("api").path("users/1/appData").request()
     .accept(MediaType.APPLICATION_JSON).get(String.class));
 ```
 LISTADO APPDATA:
 {"edad":50,"email":"mail1@mail.com","friendsNumber":2,"id":1,"lastBookFriends":[{"id":5,"isbn":2,"rating":2,"readDate":20051203,"userId":2},{"id":6,"isbn":4,"rating":8,"readDate":20091005,"userId":3}],"lastBookInfo":{"book":{"authName":"autor2","category":"categoria1","isbn":2,"name":"libro2"},"id":2,"isbn":2,"rating":7,"readDate":20001106,"userId":1},"nick":"user1"}
+
