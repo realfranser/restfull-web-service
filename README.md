@@ -21,6 +21,7 @@ como amigos y poder ver la actividad reciente de los mismos.
 | Curso		 | 3º Curso
 | Semestre    | 6º Semestre (Tarde)
 | Proyecto    | Practica 1 - RESTFull API
+| Nota        |  7,3
 <br><br>
 
 ## Autores
